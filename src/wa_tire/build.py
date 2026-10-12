@@ -133,21 +133,34 @@ def load_processed(name):
     return pd.read_csv(config.PROCESSED / f"{name}.csv")
 
 
-def growth_concentration(raw, counties, base_year, end_year):
-    """For each county, the jurisdiction contributing most to the change in disclosed nominal tire-specialist sales.
+def city_breakdown(raw, deflators, counties, base_year, end_year):
+    """Jurisdiction-level real tire-specialist sales, base and end year, for the given counties.
 
-    top_share = that jurisdiction's change / the county's net change. Near or above 1 means one city
-    (often one business) drives the county's growth signal.
+    share_of_county_change = jurisdiction change / county net change (disclosed cells only).
+    hidden_q_base / hidden_q_end count quarters in which the jurisdiction's cell was hidden ("D").
     """
     t = combine_codes(raw)
     t = t[(t["series"] == "tire") & t["county"].isin(counties)].assign(year=lambda d: d["quarter"].str[:4].astype(int))
-    by = t[t["year"].isin([base_year, end_year])].pivot_table(
-        index=["county", "location"], columns="year", values="taxable_sales", aggfunc="sum", fill_value=0)
-    by["change"] = by.get(end_year, 0) - by.get(base_year, 0)
-    rows = []
-    for county, g in by.groupby(level="county"):
-        top = g["change"].idxmax()[1]
-        net = g["change"].sum()
-        rows.append({"county": county, "top_jurisdiction": top,
-                     "top_jurisdiction_share_of_growth": g["change"].max() / net if net > 0 else float("nan")})
-    return pd.DataFrame(rows)
+    t = t[t["year"].isin([base_year, end_year])]
+    t = t.merge(deflators.loc[deflators["series"] == "tire", ["quarter", "factor"]], on="quarter", how="left")
+    t["real"] = t["taxable_sales"] * t["factor"]
+    g = t.groupby(["county", "location", "year"]).agg(real=("real", "sum"), hidden_q=("hidden", "sum")).unstack("year")
+    out = pd.DataFrame({
+        "real_base": g[("real", base_year)], "real_end": g[("real", end_year)],
+        "hidden_q_base": g[("hidden_q", base_year)], "hidden_q_end": g[("hidden_q", end_year)],
+    }).fillna(0).reset_index()
+    out["real_change"] = out["real_end"] - out["real_base"]
+    net = out.groupby("county")["real_change"].transform("sum")
+    out["share_of_county_change"] = np.where(net > 0, out["real_change"] / net, np.nan)
+    out["period"] = f"{base_year}-{end_year}"
+    return out.sort_values(["county", "real_change"], ascending=[True, False]).reset_index(drop=True)
+
+
+def growth_concentration(breakdown):
+    """Per county: the jurisdiction with the largest real change, its share, and whether its data is hidden."""
+    top = breakdown.loc[breakdown.groupby("county")["real_change"].idxmax()]
+    return pd.DataFrame({
+        "county": top["county"], "top_jurisdiction": top["location"],
+        "top_jurisdiction_share_of_growth": top["share_of_county_change"],
+        "top_jurisdiction_hidden": (top["hidden_q_base"] + top["hidden_q_end"]) > 0,
+    }).reset_index(drop=True)

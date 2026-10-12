@@ -51,3 +51,4 @@ MAX_HIDDEN_QUARTERS = 0.25    # exclude county if >25% of its quarters are hidde
 QOQ_OUTLIER_LOG = 0.5         # flag |county QoQ log change - statewide QoQ log change| > 0.5
 TOP_SHARE = 0.25              # growth flag: top quartile on relative growth gap
 RESIDUAL_Z_MIN = 1.0          # residual flag: mean recent log residual > 1x typical (median abs) test log error
+CONCENTRATION_MAX_SHARE = 0.5  # cap at Watch if one city > 50% of the county's real tire-specialist growth

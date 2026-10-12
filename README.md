@@ -1,6 +1,6 @@
 # Washington tire market opportunity (POC)
 
-We modelled expected tire-specialist sales (WA taxable sales of tire dealers, NAICS 441320 → 441340) from registered vehicles and two dealer-activity controls (Census dealer employment as primary, dealer taxable sales as secondary), using 2017–2025. We flagged counties whose tire-specialist sales sit above expectation beyond typical model error and grew faster than registered vehicles from 2019 to 2025. **Kittitas is the one robust candidate** (flagged under both controls) and **Asotin is on watch** (flagged under dealer sales only; no Census data). The main caveat: each county's growth comes mostly from one city (Cle Elum 73%, Clarkston 96%), and dealer tire sales are not observable, so these are **candidates to investigate, not proof** that dealerships are losing tire business.
+We modelled expected tire-specialist sales (WA taxable sales of tire dealers, NAICS 441320 → 441340) from registered vehicles and two dealer-activity controls (Census dealer employment as primary, dealer taxable sales as secondary), using 2017–2025. We flagged counties whose tire-specialist sales sit above expectation beyond typical model error and grew faster than registered vehicles from 2019 to 2025, and capped any county at Watch when one city drives more than half of its growth. **No county is a robust candidate:** Kittitas passes under both dealer controls but is capped at Watch because Cle Elum alone accounts for 182% of its real tire-specialist growth, and Asotin is on Watch (dealer-sales view only; Clarkston 95%). The main caveat: both signals rest on one city each, and dealer tire sales are not observable, so these are **candidates to investigate, not proof** that dealerships are losing tire business.
 
 ## Question
 
@@ -12,19 +12,33 @@ Where in Washington do tire-specialist retailers (independent shops and tire cha
 
 > Markets where tire specialists capture more than cars on the road explain and are gaining share faster than vehicle growth. Dealers may be among those losing share; confirming this needs dealer-level tire sales.
 
-| County | Tier | Reason | Largest single source of growth |
+| County | Tier | Reason | Largest single source of real growth 2019→2025 |
 |---|---|---|---|
-| **Kittitas** | **Robust** | Flagged under both dealer measures. | Cle Elum, 73% |
-| Asotin | Watch | Flagged under dealer sales only; it cannot be assessed under CBP dealer employment because CBP publishes no data for it. | Clarkston, 96% |
+| Kittitas | Watch (capped) | Flagged under both dealer measures. Capped at Watch: Cle Elum accounts for 182% of real tire-specialist sales growth (more than all of it; the rest of the county fell). | Cle Elum, 182% |
+| Asotin | Watch | Flagged under dealer sales only; it cannot be assessed under CBP dealer employment because CBP publishes no data for it. Also concentrated: Clarkston accounts for 95% of real tire-specialist sales growth. | Clarkston, 95% |
 
-- **Robust** = top candidate under both dealer measures. **Watch** = top candidate under one measure only. The two views are not weighted equally.
-- The last column is the share of the county's disclosed tire-specialist sales growth (2019→2025) that comes from its largest single jurisdiction.
+- **Robust** = top candidate under both dealer measures, and no single city accounts for more than 50% of the county's real tire-specialist growth 2019→2025. **Watch** = top candidate under one measure only, or capped by the concentration rule. The two views are not weighted equally.
+- **Concentration cap:** if one city accounts for more than 50% of a county's real tire-specialist growth, the county is capped at Watch and the reason names the city and its share. The cap is not applied when that city's data is hidden ("D") in 2019 or 2025, and the reason says so. Cle Elum and Clarkston are disclosed in every quarter of both years, so the cap applies.
 - Generated in `data/processed/candidate_tiers.csv`.
 
-**Read Kittitas with care:**
-- Its growth is a step change in Cle Elum from 2024Q2: quarterly tire-specialist sales went from about $20k to about $900k with the same 5–8 taxpayers. That points to one business opening, expanding, being reclassified or changing where it reports sales.
-- Without Cle Elum, Kittitas's tire-specialist sales are flat to falling since 2022.
-- Its CBP residual is 1.06× typical error, just over the 1× threshold.
+### City-level breakdown (flagged counties)
+
+Real tire-specialist sales (2025 dollars), disclosed cells only. "Hidden quarters" counts quarters in which a city's cell was suppressed. Full table: `data/processed/city_breakdown.csv`.
+
+| County | City | 2019 | 2025 | Change | Share of county change | Hidden quarters 2019 / 2025 |
+|---|---|---|---|---|---|---|
+| Kittitas | Cle Elum | $0.05M | $3.99M | +$3.94M | 182% | 0 / 0 |
+| Kittitas | Kittitas City | $0 | $0.03M | +$0.03M | 2% | 2 / 1 |
+| Kittitas | Roslyn | $0.01M | $0.01M | +$0.004M | 0% | 2 / 3 |
+| Kittitas | South Cle Elum | $0.003M | $0 | −$0.003M | 0% | 1 / 3 |
+| Kittitas | Unincorporated | $0.91M | $0.63M | −$0.28M | −13% | 0 / 0 |
+| Kittitas | Ellensburg | $14.81M | $13.28M | −$1.53M | −71% | 0 / 0 |
+| Asotin | Clarkston | $4.45M | $5.15M | +$0.70M | 95% | 0 / 0 |
+| Asotin | Asotin City | $0 | $0.03M | +$0.03M | 4% | 4 / 1 |
+| Asotin | Unincorporated | $0.18M | $0.19M | +$0.004M | 1% | 0 / 0 |
+
+- **Kittitas:** Cle Elum's tire-specialist sales went from about $20k to about $900k a quarter starting 2024Q2, with the same 5–8 taxpayers. That points to one business opening, expanding, being reclassified or changing where it reports sales. Ellensburg, the county's main market, fell 10% in real terms. Each hidden quarter in the small towns holds at most 2 taxpayers, so they are unlikely to change the picture (inference: their dollar amounts are unknown).
+- **Kittitas's CBP residual** is 1.06× typical error, just over the 1× threshold.
 
 ### Signals by view
 
@@ -45,6 +59,18 @@ Full rankings: `data/processed/signals_cbp_emp.csv`, `signals_sales.csv`, `candi
 ## Other findings
 
 In the CBP model, dealer employment adds little once vehicles are included: its coefficient is 0.15 (p = 0.30), against 0.65 for vehicles (p < 0.001). In this data, tire-specialist sales track cars on the road more than dealer presence. This is an observation from 20 Washington counties over 2017–2023, not a general conclusion.
+
+## How the signal definition changed
+
+The tiers moved twice since commit `0189d21`, which flagged Grant (Robust) and Kittitas and Jefferson (Watch). The residual flag never changed; all four counties pass it wherever they are assessed. Both moves came from the growth flag and the new cap:
+1. **Growth gap base: dealer activity → registered vehicles.** The CBP view's window also moved from 2019→2023 to 2019→2025.
+   - **Grant** drops: its old gap came from falling dealer activity, and its tire-specialist growth (+9%) roughly matches its vehicle growth (+5%).
+   - **Jefferson** drops: +3% tire-specialist growth against a −4% fleet ranks only 13th of 29.
+   - **Kittitas** passes under CBP: its growth arrives in 2024–25, after the old 2023 cut-off.
+   - **Asotin** enters: its dealer sales rose, which made the old gap negative, but its tire specialists grew 16% while its fleet shrank 5%.
+2. **Concentration cap (> 50% from one city).** This moves Kittitas from Robust to Watch.
+
+Full before/after table with every rule, per county and view: `reports/signal_definition_change.md`.
 
 ## Data sources
 
@@ -75,6 +101,7 @@ DOR reports cities and unincorporated areas; these are summed to counties using 
    - **Residual flag:** above expected in every recent test year, and the mean recent log residual is more than 1× typical error. Typical error is the median absolute test log error: 0.11 in the CBP view, 0.18 in the sales view.
    - **Growth flag:** top quartile on the relative growth gap, with the gap > 0 and real tire-specialist growth > 0. The relative gap is (county − state tire-specialist growth) − (county − state registered-vehicle growth), 2019→2025. It ranks counties exactly like the raw gap; only the zero line moves. Counties missing 2019 or 2025 data would be reported, not imputed; none are.
    - **Top candidate:** both flags.
+6. **Tiers:** Robust = top candidate in both views; Watch = one view only. Any county where one city accounts for more than 50% of real tire-specialist growth 2019→2025 is capped at Watch, unless that city's data is hidden in 2019 or 2025.
 
 ## Evaluation (test years)
 
@@ -92,7 +119,7 @@ The views cover different counties: CBP excludes the smallest, noisiest counties
 - Dealer tire sales are not observable, so dealer tire share cannot be measured. Tire-specialist share gains may come from dealers, big-box or online sellers.
 - The growth gap assumes tire spending per vehicle is roughly stable across counties over time.
 - Taxable retail sales only; tax-exempt sales (e.g. for resale) are excluded. Hidden cells make county totals lower bounds.
-- One jurisdiction can drive a county's signal (Kittitas: Cle Elum 73%; Asotin: Clarkston 96%).
+- One city can drive a county's signal (Kittitas: Cle Elum 182% of real growth; Asotin: Clarkston 95%). Counties above 50% are capped at Watch.
 - One state; 20 (CBP) or 29 (sales) counties modelled; small samples. CBP ends in 2023, so the primary view's level model has only 2 test years.
 - **Results are candidates, not proof.**
 
@@ -117,5 +144,5 @@ The notebook runs on a Jupyter kernel named `wa-tire` that points at the Python 
 
 - `src/wa_tire/`: all logic (config, pulls including CBP, build, model, evaluate, signals, plots).
 - `scripts/run_pipeline.py`: end-to-end pipeline for both dealer views. It writes `data/processed/` and `reports/results_summary.md`.
-- `tests/`: 5 focused tests (code combining, no double counting, non-negative sales, error-scaled residual, growth gap vs vehicles).
-- `reports/`: state data check, location-code rule, pipeline summary.
+- `tests/`: 6 focused tests (code combining, no double counting, non-negative sales, error-scaled residual, growth gap vs vehicles, concentration cap).
+- `reports/`: state data check, location-code rule, signal-definition change, pipeline summary.

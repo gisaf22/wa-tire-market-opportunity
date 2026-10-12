@@ -4,10 +4,25 @@ Run date: 2026-10-12. Sales quarters: 2015Q1-2026Q1. Train 2017-2021; test 2022-
 
 ## Candidate tiers
 
-| county   | tier   | reason                                                                                           | top_jurisdiction   |   top_jurisdiction_share_of_growth |
-|:---------|:-------|:-------------------------------------------------------------------------------------------------|:-------------------|-----------------------------------:|
-| Kittitas | Robust | Flagged under both dealer measures.                                                              | Cle Elum           |                              0.735 |
-| Asotin   | Watch  | Flagged under dealer sales only; not assessable under CBP dealer employment (no published data). | Clarkston          |                              0.958 |
+| county   | tier   | reason                                                                                                                                                                               | top_jurisdiction   |   top_jurisdiction_share_of_growth | top_jurisdiction_hidden   |
+|:---------|:-------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------|-----------------------------------:|:--------------------------|
+| Kittitas | Watch  | Flagged under both dealer measures. Capped at Watch: Cle Elum accounts for 182% of real tire-specialist sales growth (more than all of it; the rest of the county fell).             | Cle Elum           |                              1.822 | False                     |
+| Asotin   | Watch  | Flagged under dealer sales only; not assessable under CBP dealer employment (no published data). Also concentrated: Clarkston accounts for 95% of real tire-specialist sales growth. | Clarkston          |                              0.954 | False                     |
+
+
+## City-level breakdown of real tire-specialist growth (flagged counties)
+
+| county   | location                       |   real_base |    real_end |   hidden_q_base |   hidden_q_end |   real_change |   share_of_county_change | period    |
+|:---------|:-------------------------------|------------:|------------:|----------------:|---------------:|--------------:|-------------------------:|:----------|
+| Asotin   | Clarkston                      |  4451778.20 |  5152128.80 |               0 |              0 |     700350.60 |                     0.95 | 2019-2025 |
+| Asotin   | Asotin City                    |        0.00 |    29784.60 |               4 |              1 |      29784.60 |                     0.04 | 2019-2025 |
+| Asotin   | Unincorporated Asotin County   |   182843.45 |   187162.79 |               0 |              0 |       4319.34 |                     0.01 | 2019-2025 |
+| Kittitas | Cle Elum                       |    54161.40 |  3991652.93 |               0 |              0 |    3937491.53 |                     1.82 | 2019-2025 |
+| Kittitas | Kittitas City                  |        0.00 |    33706.87 |               2 |              1 |      33706.87 |                     0.02 | 2019-2025 |
+| Kittitas | Roslyn                         |     5933.53 |     9524.30 |               2 |              3 |       3590.77 |                     0.00 | 2019-2025 |
+| Kittitas | South Cle Elum                 |     3144.33 |        0.00 |               1 |              3 |      -3144.33 |                    -0.00 | 2019-2025 |
+| Kittitas | Unincorporated Kittitas County |   911016.76 |   634259.97 |               0 |              0 |    -276756.79 |                    -0.13 | 2019-2025 |
+| Kittitas | Ellensburg                     | 14810531.48 | 13277300.18 |               0 |              0 |   -1533231.30 |                    -0.71 | 2019-2025 |
 
 
 ## Views

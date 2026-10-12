@@ -96,14 +96,18 @@ def _flag(x):
     return bool(x) if pd.notna(x) else False
 
 
-def tier_table(comparison, ranked_primary, views):
+def tier_table(comparison, ranked_primary, views, concentration=None, max_share=None):
     """Tier every county that is a top candidate in any view, with a one-line reason.
 
     `views` is {view: short label}, primary first. Robust: top candidate in both views.
     Watch: top candidate in one view only, including counties the primary view cannot assess.
+    Concentration cap: if one city accounts for more than `max_share` of the county's growth,
+    the county is capped at Watch, unless that city's data is hidden in the base or end year,
+    in which case the cap is not applied and the reason says so.
     """
     (primary, p_name), (secondary, s_name) = list(views.items())
     prim = ranked_primary.set_index("county")
+    conc = concentration.set_index("county") if concentration is not None else None
     rows = []
     for _, c in comparison.iterrows():
         p, s = _flag(c[f"top_candidate_{primary}"]), _flag(c[f"top_candidate_{secondary}"])
@@ -124,6 +128,18 @@ def tier_table(comparison, ranked_primary, views):
             else:
                 why = f"growth gap not in the top quartile among {p_name} counties."
             tier, reason = "Watch", f"Flagged under {s_name} only; {why}"
+        if conc is not None and max_share is not None and county in conc.index:
+            k = conc.loc[county]
+            city, share = k["top_jurisdiction"], k["top_jurisdiction_share_of_growth"]
+            more = " (more than all of it; the rest of the county fell)" if share > 1 else ""
+            if share > max_share and k["top_jurisdiction_hidden"]:
+                reason += f" Concentration cap not applied: city-level data for {city} is hidden in the base or end year."
+            elif share > max_share:
+                if tier == "Robust":
+                    tier = "Watch"
+                    reason += f" Capped at Watch: {city} accounts for {share:.0%} of real tire-specialist sales growth{more}."
+                else:
+                    reason += f" Also concentrated: {city} accounts for {share:.0%} of real tire-specialist sales growth{more}."
         rows.append({"county": county, "tier": tier, "reason": reason})
     out = pd.DataFrame(rows, columns=["county", "tier", "reason"])
     return out.sort_values("tier", key=lambda t: t.map({"Robust": 0, "Watch": 1}), kind="stable").reset_index(drop=True)

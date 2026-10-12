@@ -64,10 +64,13 @@ def main(refresh):
     views = {v: run_view(v, cy, included, growth_end) for v in config.DEALER_VIEWS}
     comparison = signals.compare_views({v: views[v][f"signals_{v}"] for v in views})
     primary = next(iter(config.DEALER_VIEWS))
+    flagged = signals.flagged_counties(comparison, list(config.DEALER_VIEWS))
+    breakdown = build.city_breakdown(raw, deflators, flagged, config.GROWTH_BASE_YEAR, growth_end)
+    concentration = build.growth_concentration(breakdown)
     tiers = signals.tier_table(comparison, views[primary][f"signals_{primary}"],
-                               {v: d["short"] for v, d in config.DEALER_VIEWS.items()})
-    tiers = tiers.merge(build.growth_concentration(raw, tiers["county"], config.GROWTH_BASE_YEAR, growth_end),
-                        on="county", how="left")
+                               {v: d["short"] for v, d in config.DEALER_VIEWS.items()},
+                               concentration, config.CONCENTRATION_MAX_SHARE)
+    tiers = tiers.merge(concentration, on="county", how="left")
     view_summary = build.pd.DataFrame([
         {"view": v, "measure": config.DEALER_VIEWS[v]["label"], "model_years": f"{config.MODEL_FIRST_YEAR}-{r['last_year']}",
          "test_years": f"{config.TEST_FIRST_YEAR}-{r['last_year']}", "counties": r["n_counties"],
@@ -84,6 +87,7 @@ def main(refresh):
         "naics_transition_check": build.naics_transition_check(cq),
         "qoq_outliers": build.qoq_outliers(cq, included), "cpi_quarterly": deflators,
         "view_summary": view_summary, "candidates_by_view": comparison, "candidate_tiers": tiers,
+        "city_breakdown": breakdown,
     }
     for r in views.values():
         outputs.update({k: v for k, v in r.items() if k not in ("dropped", "missing_growth", "last_year", "n_counties")})
@@ -99,6 +103,8 @@ def main(refresh):
         f"Train {min(config.TRAIN_YEARS)}-{max(config.TRAIN_YEARS)}; test {config.TEST_FIRST_YEAR}-last year of each view. "
         f"Counties passing tire-data checks: {len(included)} of {len(excl)}.\n",
         "## Candidate tiers\n", md_table(tiers), "\n",
+        "## City-level breakdown of real tire-specialist growth (flagged counties)\n",
+        md_table(breakdown, ".2f"), "\n",
         "## Views\n", md_table(view_summary), "\n",
     ]
     for v, r in views.items():

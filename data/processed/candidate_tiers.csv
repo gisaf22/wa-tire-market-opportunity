@@ -1,3 +1,3 @@
-county,tier,reason,top_jurisdiction,top_jurisdiction_share_of_growth
-Kittitas,Robust,Flagged under both dealer measures.,Cle Elum,0.7348417484980749
-Asotin,Watch,Flagged under dealer sales only; not assessable under CBP dealer employment (no published data).,Clarkston,0.9577058235923795
+county,tier,reason,top_jurisdiction,top_jurisdiction_share_of_growth,top_jurisdiction_hidden
+Kittitas,Watch,Flagged under both dealer measures. Capped at Watch: Cle Elum accounts for 182% of real tire-specialist sales growth (more than all of it; the rest of the county fell).,Cle Elum,1.8215156127028438,False
+Asotin,Watch,Flagged under dealer sales only; not assessable under CBP dealer employment (no published data). Also concentrated: Clarkston accounts for 95% of real tire-specialist sales growth.,Clarkston,0.9535656263840857,False

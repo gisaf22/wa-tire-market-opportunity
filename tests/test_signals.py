@@ -39,3 +39,16 @@ def test_relative_growth_gap_vs_vehicles_and_tire_growth_requirement():
     # B has the largest gap but tire sales fell, so it is not a growth candidate
     assert ranked["growth_flag"].to_dict() == {"A": True, "B": False, "C": False}
     assert ranked["top_candidate"].to_dict() == {"A": True, "B": False, "C": False}
+
+
+def test_concentration_cap_moves_robust_to_watch_unless_city_hidden():
+    comparison = pd.DataFrame({"county": ["A", "B", "C"], "top_candidate_p": [True, True, True],
+                               "top_candidate_s": [True, True, True]})
+    ranked_primary = pd.DataFrame({"county": ["A", "B", "C"], "residual_flag": [True] * 3, "growth_flag": [True] * 3})
+    conc = pd.DataFrame({"county": ["A", "B", "C"], "top_jurisdiction": ["Town A", "Town B", "Town C"],
+                         "top_jurisdiction_share_of_growth": [0.7, 0.7, 0.4],
+                         "top_jurisdiction_hidden": [False, True, False]})
+    tiers = signals.tier_table(comparison, ranked_primary, {"p": "P", "s": "S"}, conc, max_share=0.5).set_index("county")
+    assert tiers["tier"].to_dict() == {"A": "Watch", "B": "Robust", "C": "Robust"}
+    assert "Town A accounts for 70%" in tiers.loc["A", "reason"]
+    assert "not applied" in tiers.loc["B", "reason"] and "Town B" in tiers.loc["B", "reason"]
