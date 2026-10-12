@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wa-tire"
+version = "0.1.0"
+description = "POC: Washington county tire-shop market opportunity from WA DOR taxable retail sales"
+requires-python = ">=3.10"
+dependencies = ["pandas", "requests", "statsmodels", "matplotlib", "tabulate"]
+
+[project.optional-dependencies]
+dev = ["pytest", "jupyter", "nbconvert", "nbformat"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

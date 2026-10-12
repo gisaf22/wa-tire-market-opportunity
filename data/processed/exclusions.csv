@@ -1,0 +1,40 @@
+county,hidden_quarter_share,zero_tire_year,zero_newcar_year,reason,excluded
+Adams,0.1111111111111111,False,False,,False
+Asotin,0.17777777777777778,False,False,,False
+Benton,0.0,False,False,,False
+Chelan,0.022222222222222223,False,False,,False
+Clallam,0.044444444444444446,False,False,,False
+Clark,0.0,False,False,,False
+Columbia,0.4666666666666667,False,True,tire data hidden in 47% of quarters; a model year with no disclosed new-car-dealer sales,True
+Cowlitz,0.0,False,False,,False
+Douglas,0.35555555555555557,False,False,tire data hidden in 36% of quarters,True
+Ferry,0.13333333333333333,False,False,,False
+Franklin,0.0,False,False,,False
+Garfield,0.6222222222222222,True,False,tire data hidden in 62% of quarters; a model year with no disclosed tire-dealer sales,True
+Grant,0.2222222222222222,False,False,,False
+Grays Harbor,0.3333333333333333,False,False,tire data hidden in 33% of quarters,True
+Island,0.0,False,False,,False
+Jefferson,0.15555555555555556,False,False,,False
+King,0.0,False,False,,False
+Kitsap,0.0,False,False,,False
+Kittitas,0.08888888888888889,False,False,,False
+Klickitat,0.24444444444444444,False,False,,False
+Lewis,0.15555555555555556,False,False,,False
+Lincoln,0.7777777777777778,False,False,tire data hidden in 78% of quarters,True
+Mason,0.022222222222222223,False,False,,False
+Okanogan,0.2222222222222222,False,False,,False
+Pacific,0.5333333333333333,False,False,tire data hidden in 53% of quarters,True
+Pend Oreille,0.5555555555555556,False,False,tire data hidden in 56% of quarters,True
+Pierce,0.0,False,False,,False
+San Juan,0.2222222222222222,False,False,,False
+Skagit,0.022222222222222223,False,False,,False
+Skamania,0.7333333333333333,False,False,tire data hidden in 73% of quarters,True
+Snohomish,0.0,False,False,,False
+Spokane,0.0,False,False,,False
+Stevens,0.15555555555555556,False,False,,False
+Thurston,0.0,False,False,,False
+Wahkiakum,0.5111111111111111,False,True,tire data hidden in 51% of quarters; a model year with no disclosed new-car-dealer sales,True
+Walla Walla,0.13333333333333333,False,False,,False
+Whatcom,0.0,False,False,,False
+Whitman,0.9111111111111111,False,False,tire data hidden in 91% of quarters,True
+Yakima,0.0,False,False,,False

@@ -1,0 +1,342 @@
+location_code,location,county_no,rule,county
+0100,Unincorporated Adams County,01,unincorporated,Adams
+0101,Hatton,01,city,Adams
+0102,Lind,01,city,Adams
+0103,Othello,01,city,Adams
+0104,Ritzville,01,city,Adams
+0105,Washtucna,01,city,Adams
+0200,Unincorporated Asotin County,02,unincorporated,Asotin
+0201,Asotin (City),02,city,Asotin
+0202,Clarkston,02,city,Asotin
+0300,Unincorporated Benton County,03,unincorporated,Benton
+0301,Benton (City),03,city,Benton
+0302,Kennewick,03,city,Benton
+0303,Prosser,03,city,Benton
+0304,Richland,03,city,Benton
+0305,West Richland,03,city,Benton
+0333,Benton County PTBA,03,drop_ptba,Benton
+0400,Unincorporated Chelan County,04,unincorporated,Chelan
+0401,Cashmere,04,city,Chelan
+0402,Chelan (City),04,city,Chelan
+0403,Entiat,04,city,Chelan
+0404,Leavenworth,04,city,Chelan
+0405,Wenatchee,04,city,Chelan
+0500,Unincorporated Clallam County,05,unincorporated,Clallam
+0501,Forks,05,city,Clallam
+0502,Port Angeles,05,city,Clallam
+0503,Sequim,05,city,Clallam
+0600,Unincorporated Clark County,06,unincorporated,Clark
+0601,Battle Ground,06,city,Clark
+0602,Camas,06,city,Clark
+0603,La Center,06,city,Clark
+0604,Ridgefield,06,city,Clark
+0605,Vancouver,06,city,Clark
+0606,Washougal,06,city,Clark
+0607,Yacolt,06,city,Clark
+0666,Clark County PTBA,06,drop_ptba,Clark
+0700,Unincorporated Columbia County,07,unincorporated,Columbia
+0701,Dayton,07,city,Columbia
+0702,Starbuck,07,city,Columbia
+0800,Unincorporated Cowlitz County,08,unincorporated,Cowlitz
+0801,Castle Rock,08,city,Cowlitz
+0802,Kalama,08,city,Cowlitz
+0803,Kelso,08,city,Cowlitz
+0804,Longview,08,city,Cowlitz
+0805,Woodland,08,city,Cowlitz
+0900,Unincorporated Douglas County,09,unincorporated,Douglas
+0901,Bridgeport,09,city,Douglas
+0902,East Wenatchee,09,city,Douglas
+0903,Mansfield,09,city,Douglas
+0904,Rock Island,09,city,Douglas
+0905,Waterville,09,city,Douglas
+0909,Douglas PTBA,09,drop_ptba,Douglas
+1000,Unincorporated Ferry County,10,unincorporated,Ferry
+1001,Republic,10,city,Ferry
+1100,Unincorporated Franklin County,11,unincorporated,Franklin
+1101,Connell,11,city,Franklin
+1102,Kahlotus,11,city,Franklin
+1103,Mesa,11,city,Franklin
+1104,Pasco,11,city,Franklin
+1111,Franklin PTBA,11,drop_ptba,Franklin
+1200,Unincorporated Garfield County,12,unincorporated,Garfield
+1201,Pomeroy,12,city,Garfield
+1300,Unincorporated Grant County,13,unincorporated,Grant
+1301,Coulee City,13,city,Grant
+1302,Electric City,13,city,Grant
+1303,Ephrata,13,city,Grant
+1304,George,13,city,Grant
+1305,Grand Coulee,13,city,Grant
+1306,Hartline,13,city,Grant
+1307,Krupp,13,city,Grant
+1308,Mattawa,13,city,Grant
+1309,Moses Lake,13,city,Grant
+1310,Quincy,13,city,Grant
+1311,Royal City,13,city,Grant
+1312,Soap Lake,13,city,Grant
+1313,Warden,13,city,Grant
+1315,Wilson Creek,13,city,Grant
+1400,Unincorporated Grays Harbor County,14,unincorporated,Grays Harbor
+1401,Aberdeen,14,city,Grays Harbor
+1402,Cosmopolis,14,city,Grays Harbor
+1403,Elma,14,city,Grays Harbor
+1404,Hoquiam,14,city,Grays Harbor
+1405,McCleary,14,city,Grays Harbor
+1406,Montesano,14,city,Grays Harbor
+1407,Oakville,14,city,Grays Harbor
+1408,Westport,14,city,Grays Harbor
+1409,Ocean Shores,14,city,Grays Harbor
+1500,Unincorporated Island County,15,unincorporated,Island
+1501,Coupeville,15,city,Island
+1502,Langley,15,city,Island
+1503,Oak Harbor,15,city,Island
+1600,Unincorporated Jefferson County,16,unincorporated,Jefferson
+1601,Port Townsend,16,city,Jefferson
+1700,Unincorporated King County,17,unincorporated,King
+1701,Algona,17,city,King
+1702,Auburn/King Only,17,city,King
+1703,Beaux Arts Village,17,city,King
+1704,Bellevue,17,city,King
+1705,Black Diamond,17,city,King
+1706,Bothell/King Only,17,city,King
+1707,Carnation,17,city,King
+1708,Clyde Hill,17,city,King
+1709,Des Moines,17,city,King
+1710,Duvall,17,city,King
+1711,Enumclaw,17,city,King
+1712,Covington,17,city,King
+1713,Hunts Point,17,city,King
+1714,Issaquah,17,city,King
+1715,Kent,17,city,King
+1716,Kirkland,17,city,King
+1717,Lake Forest Park,17,city,King
+1718,Medina,17,city,King
+1719,Mercer Island,17,city,King
+1720,Maple Valley,17,city,King
+1721,Normandy Park,17,city,King
+1722,North Bend,17,city,King
+1723,Pacific/King Only,17,city,King
+1724,Redmond,17,city,King
+1725,Renton,17,city,King
+1726,Seattle,17,city,King
+1727,Skykomish,17,city,King
+1728,Snoqualmie,17,city,King
+1729,Tukwila,17,city,King
+1730,Yarrow Point,17,city,King
+1731,Milton/King Only,17,city,King
+1732,Federal Way,17,city,King
+1733,SeaTac,17,city,King
+1734,Burien,17,city,King
+1735,Woodinville,17,city,King
+1736,Newcastle,17,city,King
+1737,Shoreline,17,city,King
+1738,Kenmore,17,city,King
+1739,Sammamish,17,city,King
+1800,Unincorporated Kitsap County,18,unincorporated,Kitsap
+1801,Bremerton,18,city,Kitsap
+1802,Port Orchard,18,city,Kitsap
+1803,Poulsbo,18,city,Kitsap
+1804,Bainbridge Island,18,city,Kitsap
+1900,Unincorporated Kittitas County,19,unincorporated,Kittitas
+1901,Cle Elum,19,city,Kittitas
+1902,Ellensburg,19,city,Kittitas
+1903,Kittitas (City),19,city,Kittitas
+1904,Roslyn,19,city,Kittitas
+1905,South Cle Elum,19,city,Kittitas
+2000,Unincorporated Klickitat County,20,unincorporated,Klickitat
+2001,Bingen,20,city,Klickitat
+2002,Goldendale,20,city,Klickitat
+2003,White Salmon,20,city,Klickitat
+2100,Unincorporated Lewis County,21,unincorporated,Lewis
+2101,Centralia,21,city,Lewis
+2102,Chehalis,21,city,Lewis
+2103,Morton,21,city,Lewis
+2104,Mossyrock,21,city,Lewis
+2105,Napavine,21,city,Lewis
+2106,Pe Ell,21,city,Lewis
+2107,Toledo,21,city,Lewis
+2108,Vader,21,city,Lewis
+2109,Winlock,21,city,Lewis
+2200,Unincorporated Lincoln County,22,unincorporated,Lincoln
+2201,Almira,22,city,Lincoln
+2202,Creston,22,city,Lincoln
+2203,Davenport,22,city,Lincoln
+2204,Harrington,22,city,Lincoln
+2205,Odessa,22,city,Lincoln
+2206,Reardan,22,city,Lincoln
+2207,Sprague,22,city,Lincoln
+2208,Wilbur,22,city,Lincoln
+2300,Unincorporated Mason County,23,unincorporated,Mason
+2301,Shelton,23,city,Mason
+2400,Unincorporated Okanogan County,24,unincorporated,Okanogan
+2401,Brewster,24,city,Okanogan
+2402,Conconully,24,city,Okanogan
+2403,Coulee Dam,24,city,Okanogan
+2404,Elmer City,24,city,Okanogan
+2405,Nespelem,24,city,Okanogan
+2406,Okanogan (City),24,city,Okanogan
+2407,Omak,24,city,Okanogan
+2408,Oroville,24,city,Okanogan
+2409,Pateros,24,city,Okanogan
+2410,Riverside,24,city,Okanogan
+2411,Tonasket,24,city,Okanogan
+2412,Twisp,24,city,Okanogan
+2413,Winthrop,24,city,Okanogan
+2500,Unincorporated Pacific County,25,unincorporated,Pacific
+2501,Ilwaco,25,city,Pacific
+2502,Long Beach,25,city,Pacific
+2503,Raymond,25,city,Pacific
+2504,South Bend,25,city,Pacific
+2600,Unincorporated Pend Oreille County,26,unincorporated,Pend Oreille
+2601,Cusick,26,city,Pend Oreille
+2602,Ione,26,city,Pend Oreille
+2603,Metaline,26,city,Pend Oreille
+2604,Metaline Falls,26,city,Pend Oreille
+2605,Newport,26,city,Pend Oreille
+2700,Unincorporated Pierce County,27,unincorporated,Pierce
+2701,Bonney Lake,27,city,Pierce
+2702,Buckley,27,city,Pierce
+2703,Carbonado,27,city,Pierce
+2704,Du Pont,27,city,Pierce
+2705,Eatonville,27,city,Pierce
+2706,Fife,27,city,Pierce
+2707,Fircrest,27,city,Pierce
+2708,Gig Harbor,27,city,Pierce
+2709,Milton/Pierce Only,27,city,Pierce
+2710,Orting,27,city,Pierce
+2711,Puyallup,27,city,Pierce
+2712,Roy,27,city,Pierce
+2713,Ruston,27,city,Pierce
+2714,South Prairie,27,city,Pierce
+2715,Steilacoom,27,city,Pierce
+2716,Sumner,27,city,Pierce
+2717,Tacoma,27,city,Pierce
+2718,Wilkeson,27,city,Pierce
+2719,University Place,27,city,Pierce
+2720,Edgewood,27,city,Pierce
+2721,Lakewood,27,city,Pierce
+2723,Pacific/Pierce Only,27,city,Pierce
+2724,Auburn/Pierce Only,27,city,Pierce
+2727,Pierce County PTBA,27,drop_ptba,Pierce
+2787,Pierce PTBA HBZ,27,drop_ptba,Pierce
+2788,Gig Harbor HBZ,27,city,Pierce
+2800,Unincorporated San Juan County,28,unincorporated,San Juan
+2801,Friday Harbor,28,city,San Juan
+2900,Unincorporated Skagit County,29,unincorporated,Skagit
+2901,Anacortes,29,city,Skagit
+2902,Burlington,29,city,Skagit
+2903,Concrete,29,city,Skagit
+2904,Hamilton,29,city,Skagit
+2905,La Conner,29,city,Skagit
+2906,Lyman,29,city,Skagit
+2907,Mount Vernon,29,city,Skagit
+2908,Sedro Woolley,29,city,Skagit
+2929,Skagit County PTBA,29,drop_ptba,Skagit
+3000,Unincorporated Skamania County,30,unincorporated,Skamania
+3001,North Bonneville,30,city,Skamania
+3002,Stevenson,30,city,Skamania
+3099,Skamina County,30,drop_99,Skamania
+3100,Unincorporated Snohomish County,31,unincorporated,Snohomish
+3101,Arlington,31,city,Snohomish
+3102,Brier,31,city,Snohomish
+3103,Darrington,31,city,Snohomish
+3104,Edmonds,31,city,Snohomish
+3105,Everett,31,city,Snohomish
+3106,Gold Bar,31,city,Snohomish
+3107,Granite Falls,31,city,Snohomish
+3108,Index,31,city,Snohomish
+3109,Lake Stevens,31,city,Snohomish
+3110,Lynnwood,31,city,Snohomish
+3111,Marysville,31,city,Snohomish
+3112,Monroe,31,city,Snohomish
+3113,Mountlake Terrace,31,city,Snohomish
+3114,Mukilteo,31,city,Snohomish
+3115,Snohomish (City),31,city,Snohomish
+3116,Stanwood,31,city,Snohomish
+3117,Sultan,31,city,Snohomish
+3118,Woodway,31,city,Snohomish
+3119,Mill Creek,31,city,Snohomish
+3120,Bothell/Snohomish Only,31,city,Snohomish
+3131,Snohomish PTBA,31,drop_ptba,Snohomish
+3200,Unincorporated Spokane County,32,unincorporated,Spokane
+3201,Airway Heights,32,city,Spokane
+3202,Cheney,32,city,Spokane
+3203,Deer Park,32,city,Spokane
+3204,Fairfield,32,city,Spokane
+3205,Latah,32,city,Spokane
+3206,Medical Lake,32,city,Spokane
+3207,Millwood,32,city,Spokane
+3208,Rockford,32,city,Spokane
+3209,Spangle,32,city,Spokane
+3210,Spokane (City),32,city,Spokane
+3211,Waverly,32,city,Spokane
+3212,Liberty Lake,32,city,Spokane
+3213,Spokane Valley,32,city,Spokane
+3232,Spokane PTBA,32,drop_ptba,Spokane
+3300,Unincorporated Stevens County,33,unincorporated,Stevens
+3301,Chewelah,33,city,Stevens
+3302,Colville,33,city,Stevens
+3303,Kettle Falls,33,city,Stevens
+3304,Marcus,33,city,Stevens
+3305,Nothport,33,city,Stevens
+3306,Springdale,33,city,Stevens
+3400,Unincorporated Thurston County,34,unincorporated,Thurston
+3401,Bucoda,34,city,Thurston
+3402,Lacey,34,city,Thurston
+3403,Olympia,34,city,Thurston
+3404,Rainier,34,city,Thurston
+3405,Tenino,34,city,Thurston
+3406,Tumwater,34,city,Thurston
+3407,Yelm,34,city,Thurston
+3434,Thurston PTBA,34,drop_ptba,Thurston
+3499,Thurston County,34,drop_99,Thurston
+3500,Unincorporated Wahkiakum County,35,unincorporated,Wahkiakum
+3501,Cathlamet,35,city,Wahkiakum
+3599,Wahkiakum County,35,drop_99,Wahkiakum
+3600,Unincorporated Walla Walla County,36,unincorporated,Walla Walla
+3601,College Place,36,city,Walla Walla
+3602,Prescott,36,city,Walla Walla
+3603,Waitsburg,36,city,Walla Walla
+3604,Walla Walla (City),36,city,Walla Walla
+3636,Walla Walla PTBA,36,drop_ptba,Walla Walla
+3700,Unincorporated Whatcom County,37,unincorporated,Whatcom
+3701,Bellingham,37,city,Whatcom
+3702,Blaine,37,city,Whatcom
+3703,Everson,37,city,Whatcom
+3704,Ferndale,37,city,Whatcom
+3705,Lynden,37,city,Whatcom
+3706,Nooksack,37,city,Whatcom
+3707,Sumas,37,city,Whatcom
+3737,Whatcom PTBA,37,drop_ptba,Whatcom
+3800,Unincorporated Whitman County,38,unincorporated,Whitman
+3801,Albion,38,city,Whitman
+3802,Colfax,38,city,Whitman
+3803,Colton,38,city,Whitman
+3804,Endicott,38,city,Whitman
+3805,Farmington,38,city,Whitman
+3806,Garfield,38,city,Whitman
+3807,La Crosse,38,city,Whitman
+3808,Lamont,38,city,Whitman
+3809,Malden,38,city,Whitman
+3810,Oakesdale,38,city,Whitman
+3811,Palouse,38,city,Whitman
+3812,Pullman,38,city,Whitman
+3813,Rosalia,38,city,Whitman
+3814,St. John,38,city,Whitman
+3815,Tekoa,38,city,Whitman
+3816,Uniontown,38,city,Whitman
+3899,Whitman County,38,drop_99,Whitman
+3900,Unincorporated Yakima County,39,unincorporated,Yakima
+3901,Grandview,39,city,Yakima
+3902,Granger,39,city,Yakima
+3903,Harrah,39,city,Yakima
+3904,Mabton,39,city,Yakima
+3905,Moxee City,39,city,Yakima
+3906,Naches,39,city,Yakima
+3907,Selah,39,city,Yakima
+3908,Sunnyside,39,city,Yakima
+3909,Tieton,39,city,Yakima
+3910,Toppenish,39,city,Yakima
+3911,Union Gap,39,city,Yakima
+3912,Wapato,39,city,Yakima
+3913,Yakima (City),39,city,Yakima
+3914,Zillah,39,city,Yakima
