@@ -1,14 +1,22 @@
 # Washington tire market opportunity (POC)
 
+We asked which Washington counties have independent tire-dealer sales above what registered vehicles and dealership activity predict, or growing faster than dealer activity. Using state taxable-sales data (2015–2026), vehicle registrations and two dealer-activity measures (Census dealer employment as primary, dealer taxable sales as secondary), we modelled expected tire-dealer sales and flagged counties above expectation beyond typical model error whose tire growth beat dealer growth. **Grant County is the one robust candidate** (flagged under both measures); **Kittitas and Jefferson are on watch** (flagged under one measure only). The main caveat: these are taxable-sales signals that can also reflect cross-county shopping, fleet buyers or vehicle mix, so they are **candidates to investigate, not proof** that dealerships are losing tire business.
+
 ## Question
 
 Which Washington counties have tire-shop (independent tire dealer) sales **above** what registered vehicles and dealership activity would predict, and/or tire-shop sales **growing faster** than dealership activity?
 
-These are *candidate* markets where dealerships may be losing tire business to independents. **They are not proof.**
+## Candidates (tiered)
 
-## Answer
+| County | Tier | Reason |
+|---|---|---|
+| **Grant** | **Robust** | Flagged under both dealer measures. |
+| Kittitas | Watch | Flagged under dealer sales only. In the CBP window its tire sales did not grow from 2019 to 2023, so the signal comes from 2024–25. Recheck when CBP 2024 is released. |
+| Jefferson | Watch | Flagged under dealer sales only. It cannot be assessed under CBP dealer employment because CBP publishes no data for it. |
 
-**Grant County is the one robust candidate.** It is flagged under both dealer measures.
+**Robust** = top candidate under both dealer measures. **Watch** = top candidate under one measure only. The two views are not weighted equally. Generated in `data/processed/candidate_tiers.csv`.
+
+### Signals by view
 
 **Primary view** (dealer activity = Census CBP new-car dealer employment, 2017–2023, 20 counties):
 
@@ -26,13 +34,17 @@ These are *candidate* markets where dealerships may be losing tire business to i
 | Kittitas | 4 of 4 | +50% | 2.3× | +14% | −28% | +0.47 |
 | Jefferson | 4 of 4 | +67% | 2.9× | +3% | −23% | +0.30 |
 
-**Why the list changes between views:** the difference comes from the shorter window and narrower county coverage, not from the employment measure itself. A one-off check, not part of the pipeline, ran dealer sales on CBP's 20 counties through 2023, and it also flags only Grant.
+**Why the tiers differ:** the difference comes from the shorter window and narrower county coverage, not from the employment measure itself. A one-off check, not part of the pipeline, ran dealer sales on CBP's 20 counties through 2023, and it also flags only Grant.
 - Kittitas's tire growth came in 2024–25, after CBP's last year.
 - Jefferson is not published in CBP.
 
 Plausible non-dealer explanations for each flagged county are listed as **hypotheses** in notebook section 6. Examples: Grant's agricultural and fleet buyers; Kittitas's I-90 corridor; Jefferson's small, volatile, often-hidden data.
 
 Full rankings: `data/processed/signals_cbp_emp.csv`, `signals_sales.csv`, `candidates_by_view.csv`. Notebook: `notebooks/wa_tire_opportunity.ipynb`.
+
+## Other findings
+
+In the CBP model, dealer employment adds little once vehicles are included: its coefficient is 0.15 (p = 0.30), against 0.65 for vehicles (p < 0.001). In this data, tire-dealer sales track cars on the road more than dealer presence. This is an observation from 20 Washington counties over 2017–2023, not a general conclusion.
 
 ## Data sources
 

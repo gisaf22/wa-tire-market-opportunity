@@ -59,6 +59,9 @@ def main(refresh):
     print("3/4 model, evaluation and signals per dealer view")
     views = {v: run_view(v, cy, included) for v in config.DEALER_VIEWS}
     comparison = signals.compare_views({v: views[v][f"signals_{v}"] for v in views})
+    primary = next(iter(config.DEALER_VIEWS))
+    tiers = signals.tier_table(comparison, views[primary][f"signals_{primary}"],
+                               {v: d["short"] for v, d in config.DEALER_VIEWS.items()}, views[primary]["last_year"])
     view_summary = build.pd.DataFrame([
         {"view": v, "measure": config.DEALER_VIEWS[v]["label"], "model_years": f"{config.MODEL_FIRST_YEAR}-{r['last_year']}",
          "test_years": f"{config.TEST_FIRST_YEAR}-{r['last_year']}", "counties": r["n_counties"],
@@ -73,7 +76,7 @@ def main(refresh):
         "coverage": build.coverage_table(cq, cy, excl),
         "naics_transition_check": build.naics_transition_check(cq),
         "qoq_outliers": build.qoq_outliers(cq, included), "cpi_quarterly": deflators,
-        "view_summary": view_summary, "candidates_by_view": comparison,
+        "view_summary": view_summary, "candidates_by_view": comparison, "candidate_tiers": tiers,
     }
     for r in views.values():
         outputs.update({k: v for k, v in r.items() if k not in ("dropped", "last_year", "n_counties")})
@@ -88,6 +91,7 @@ def main(refresh):
         f"Run date: {dt.date.today()}. Sales quarters: {quarters[0]}-{quarters[-1]}. "
         f"Train {min(config.TRAIN_YEARS)}-{max(config.TRAIN_YEARS)}; test {config.TEST_FIRST_YEAR}-last year of each view. "
         f"Counties passing tire-data checks: {len(included)} of {len(excl)}.\n",
+        "## Candidate tiers\n", md_table(tiers), "\n",
         "## Views\n", md_table(view_summary), "\n",
     ]
     for v, r in views.items():
@@ -109,6 +113,7 @@ def main(refresh):
 
     print(f"\ncounties passing tire-data checks: {len(included)} / {len(excl)}")
     print(view_summary.to_string(index=False))
+    print("\n" + tiers.to_string(index=False))
     for v, r in views.items():
         print(f"\n[{v}]")
         print(r[f"evaluation_{v}"].to_string(index=False))

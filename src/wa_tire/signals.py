@@ -85,3 +85,43 @@ def flagged_counties(comparison, views):
     for v in views:
         out += [c for c in comparison.loc[comparison[f"top_candidate_{v}"].eq(True), "county"] if c not in out]
     return out
+
+
+def _flag(x):
+    """True only for a set True flag (NaN = county not in that view)."""
+    return bool(x) if pd.notna(x) else False
+
+
+def tier_table(comparison, ranked_primary, views, primary_last_year):
+    """Tier every county that is a top candidate in any view, with a one-line reason.
+
+    `views` is {view: short label}, primary first. Robust: top candidate in both views.
+    Watch: top candidate in one view only, including counties the primary view cannot assess.
+    """
+    (primary, p_name), (secondary, s_name) = list(views.items())
+    prim = ranked_primary.set_index("county")
+    rows = []
+    for _, c in comparison.iterrows():
+        p, s = _flag(c[f"top_candidate_{primary}"]), _flag(c[f"top_candidate_{secondary}"])
+        if not (p or s):
+            continue
+        county = c["county"]
+        if p and s:
+            tier, reason = "Robust", "Flagged under both dealer measures."
+        elif p:
+            tier, reason = "Watch", f"Flagged under {p_name} only."
+        elif county not in prim.index:
+            tier, reason = "Watch", f"Flagged under {s_name} only; not assessable under {p_name} (no published data)."
+        else:
+            r = prim.loc[county]
+            if not r["growth_flag"] and r["tire_growth_log"] <= 0:
+                why = (f"in the {p_name} window tire sales did not grow 2019-{primary_last_year}, so its signal comes "
+                       f"from later years; recheck when {p_name} {primary_last_year + 1} is released.")
+            elif not r["residual_flag"]:
+                why = f"residual within model error under {p_name}."
+            else:
+                why = f"growth gap not in the top quartile under {p_name}."
+            tier, reason = "Watch", f"Flagged under {s_name} only; {why}"
+        rows.append({"county": county, "tier": tier, "reason": reason})
+    out = pd.DataFrame(rows, columns=["county", "tier", "reason"])
+    return out.sort_values("tier", key=lambda t: t.map({"Robust": 0, "Watch": 1}), kind="stable").reset_index(drop=True)

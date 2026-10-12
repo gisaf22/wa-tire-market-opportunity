@@ -2,6 +2,15 @@
 
 Run date: 2026-10-12. Sales quarters: 2015Q1-2026Q1. Train 2017-2021; test 2022-last year of each view. Counties passing tire-data checks: 29 of 39.
 
+## Candidate tiers
+
+| county    | tier   | reason                                                                                                                                                                                             |
+|:----------|:-------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Grant     | Robust | Flagged under both dealer measures.                                                                                                                                                                |
+| Kittitas  | Watch  | Flagged under dealer sales only; in the CBP dealer employment window tire sales did not grow 2019-2023, so its signal comes from later years; recheck when CBP dealer employment 2024 is released. |
+| Jefferson | Watch  | Flagged under dealer sales only; not assessable under CBP dealer employment (no published data).                                                                                                   |
+
+
 ## Views
 
 | view    | measure                                 | model_years   | test_years   |   counties | dropped_no_dealer_data                                                       | top_candidates             |

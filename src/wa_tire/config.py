@@ -33,8 +33,8 @@ RECENT_YEARS_N = 3               # residual flag uses the last 3 test years (few
 # (2017-2023; 2024 not yet released). Secondary: DOR new-car-dealer real taxable sales.
 CBP_NAICS_VAR = "NAICS2017"  # 441110 is unchanged in NAICS 2022
 DEALER_VIEWS = {
-    "cbp_emp": {"col": "newcar_emp", "label": "New-car dealer employment (CBP)"},
-    "sales": {"col": "newcar_real", "label": "New-car dealer real taxable sales (DOR)"},
+    "cbp_emp": {"col": "newcar_emp", "label": "New-car dealer employment (CBP)", "short": "CBP dealer employment"},
+    "sales": {"col": "newcar_real", "label": "New-car dealer real taxable sales (DOR)", "short": "dealer sales"},
 }
 
 # BLS CPI-U, U.S. city average, not seasonally adjusted.
