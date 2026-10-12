@@ -1,4 +1,3 @@
-county,tier,reason
-Grant,Robust,Flagged under both dealer measures.
-Kittitas,Watch,"Flagged under dealer sales only; in the CBP dealer employment window tire sales did not grow 2019-2023, so its signal comes from later years; recheck when CBP dealer employment 2024 is released."
-Jefferson,Watch,Flagged under dealer sales only; not assessable under CBP dealer employment (no published data).
+county,tier,reason,top_jurisdiction,top_jurisdiction_share_of_growth
+Kittitas,Robust,Flagged under both dealer measures.,Cle Elum,0.7348417484980749
+Asotin,Watch,Flagged under dealer sales only; not assessable under CBP dealer employment (no published data).,Clarkston,0.9577058235923795

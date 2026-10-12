@@ -131,3 +131,23 @@ def coverage_table(cq, cy, excl):
 def load_processed(name):
     """Read a pipeline output from data/processed/ (used by the notebook)."""
     return pd.read_csv(config.PROCESSED / f"{name}.csv")
+
+
+def growth_concentration(raw, counties, base_year, end_year):
+    """For each county, the jurisdiction contributing most to the change in disclosed nominal tire sales.
+
+    top_share = that jurisdiction's change / the county's net change. Near or above 1 means one city
+    (often one business) drives the county's growth signal.
+    """
+    t = combine_codes(raw)
+    t = t[(t["series"] == "tire") & t["county"].isin(counties)].assign(year=lambda d: d["quarter"].str[:4].astype(int))
+    by = t[t["year"].isin([base_year, end_year])].pivot_table(
+        index=["county", "location"], columns="year", values="taxable_sales", aggfunc="sum", fill_value=0)
+    by["change"] = by.get(end_year, 0) - by.get(base_year, 0)
+    rows = []
+    for county, g in by.groupby(level="county"):
+        top = g["change"].idxmax()[1]
+        net = g["change"].sum()
+        rows.append({"county": county, "top_jurisdiction": top,
+                     "top_jurisdiction_share_of_growth": g["change"].max() / net if net > 0 else float("nan")})
+    return pd.DataFrame(rows)

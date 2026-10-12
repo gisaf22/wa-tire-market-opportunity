@@ -2,7 +2,8 @@
 
 Residual flag: actual above expected in every recent test year AND mean recent log residual
 greater than RESIDUAL_Z_MIN x the model's typical error (median absolute test log error).
-Growth flag: top quartile on relative growth gap, with relative gap > 0 and real tire growth > 0.
+Growth flag: top quartile on relative growth gap (tire vs registered-vehicle growth), with relative
+gap > 0 and real tire growth > 0.
 Top candidate: both flags.
 """
 
@@ -30,25 +31,26 @@ def residual_stats(test_pred, recent_n, z_min):
     return out
 
 
-def growth_gap(cy, base_year, end_year, dealer_col):
-    """Real log growth base->end for tires and dealer activity, each net of the trend of the counties in `cy`.
+def growth_gap(cy, base_year, end_year):
+    """Real tire-dealer log growth minus registered-vehicle log growth, base->end, each net of the
+    trend across the counties in `cy`.
 
-    relative_gap = (county tire - state tire growth) - (county dealer - state dealer growth).
+    relative_gap = (county tire - state tire growth) - (county vehicle - state vehicle growth).
     The state terms are the same for every county, so ranking on relative_gap equals ranking on
-    the raw gap; they only move the zero line.
+    the raw gap; they only move the zero line. Dealer activity is not used here (level model only).
     """
     b = cy[cy["year"] == base_year].set_index("county")
     e = cy[cy["year"] == end_year].set_index("county")
     out = pd.DataFrame({
         "tire_growth_log": np.log(e["tire_real"] / b["tire_real"]),
-        "dealer_growth_log": np.log(e[dealer_col] / b[dealer_col]),
+        "vehicle_growth_log": np.log(e["vehicles"] / b["vehicles"]),
     })
     state_tire = np.log(e["tire_real"].sum() / b["tire_real"].sum())
-    state_dealer = np.log(e[dealer_col].sum() / b[dealer_col].sum())
+    state_vehicles = np.log(e["vehicles"].sum() / b["vehicles"].sum())
     out["tire_rel_log"] = out["tire_growth_log"] - state_tire
-    out["dealer_rel_log"] = out["dealer_growth_log"] - state_dealer
-    out["growth_gap_log"] = out["tire_growth_log"] - out["dealer_growth_log"]
-    out["relative_gap_log"] = out["tire_rel_log"] - out["dealer_rel_log"]
+    out["vehicle_rel_log"] = out["vehicle_growth_log"] - state_vehicles
+    out["growth_gap_log"] = out["tire_growth_log"] - out["vehicle_growth_log"]
+    out["relative_gap_log"] = out["tire_rel_log"] - out["vehicle_rel_log"]
     out["growth_period"] = f"{base_year}-{end_year}"
     return out.reset_index()
 
@@ -92,7 +94,7 @@ def _flag(x):
     return bool(x) if pd.notna(x) else False
 
 
-def tier_table(comparison, ranked_primary, views, primary_last_year):
+def tier_table(comparison, ranked_primary, views):
     """Tier every county that is a top candidate in any view, with a one-line reason.
 
     `views` is {view: short label}, primary first. Robust: top candidate in both views.
@@ -114,13 +116,11 @@ def tier_table(comparison, ranked_primary, views, primary_last_year):
             tier, reason = "Watch", f"Flagged under {s_name} only; not assessable under {p_name} (no published data)."
         else:
             r = prim.loc[county]
-            if not r["growth_flag"] and r["tire_growth_log"] <= 0:
-                why = (f"in the {p_name} window tire sales did not grow 2019-{primary_last_year}, so its signal comes "
-                       f"from later years; recheck when {p_name} {primary_last_year + 1} is released.")
-            elif not r["residual_flag"]:
-                why = f"residual within model error under {p_name}."
+            if not r["residual_flag"]:
+                why = (f"under {p_name} sales are above expected in {int(r['test_years_above'])} of "
+                       f"{int(r['test_years'])} test years at {r['residual_z']:.1f}x typical error (flag needs all recent years and >1x).")
             else:
-                why = f"growth gap not in the top quartile under {p_name}."
+                why = f"growth gap not in the top quartile among {p_name} counties."
             tier, reason = "Watch", f"Flagged under {s_name} only; {why}"
         rows.append({"county": county, "tier": tier, "reason": reason})
     out = pd.DataFrame(rows, columns=["county", "tier", "reason"])

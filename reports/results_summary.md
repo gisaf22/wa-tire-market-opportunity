@@ -4,19 +4,18 @@ Run date: 2026-10-12. Sales quarters: 2015Q1-2026Q1. Train 2017-2021; test 2022-
 
 ## Candidate tiers
 
-| county    | tier   | reason                                                                                                                                                                                             |
-|:----------|:-------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Grant     | Robust | Flagged under both dealer measures.                                                                                                                                                                |
-| Kittitas  | Watch  | Flagged under dealer sales only; in the CBP dealer employment window tire sales did not grow 2019-2023, so its signal comes from later years; recheck when CBP dealer employment 2024 is released. |
-| Jefferson | Watch  | Flagged under dealer sales only; not assessable under CBP dealer employment (no published data).                                                                                                   |
+| county   | tier   | reason                                                                                           | top_jurisdiction   |   top_jurisdiction_share_of_growth |
+|:---------|:-------|:-------------------------------------------------------------------------------------------------|:-------------------|-----------------------------------:|
+| Kittitas | Robust | Flagged under both dealer measures.                                                              | Cle Elum           |                              0.735 |
+| Asotin   | Watch  | Flagged under dealer sales only; not assessable under CBP dealer employment (no published data). | Clarkston          |                              0.958 |
 
 
 ## Views
 
-| view    | measure                                 | model_years   | test_years   |   counties | dropped_no_dealer_data                                                       | top_candidates             |
-|:--------|:----------------------------------------|:--------------|:-------------|-----------:|:-----------------------------------------------------------------------------|:---------------------------|
-| cbp_emp | New-car dealer employment (CBP)         | 2017-2023     | 2022-2023    |         20 | Adams, Asotin, Ferry, Island, Jefferson, Klickitat, Mason, San Juan, Stevens | Grant                      |
-| sales   | New-car dealer real taxable sales (DOR) | 2017-2025     | 2022-2025    |         29 |                                                                              | Jefferson, Kittitas, Grant |
+| view    | measure                                 | model_years   | test_years   |   counties | dropped_no_dealer_data                                                       | top_candidates   |
+|:--------|:----------------------------------------|:--------------|:-------------|-----------:|:-----------------------------------------------------------------------------|:-----------------|
+| cbp_emp | New-car dealer employment (CBP)         | 2017-2023     | 2022-2023    |         20 | Adams, Asotin, Ferry, Island, Jefferson, Klickitat, Mason, San Juan, Stevens | Kittitas         |
+| sales   | New-car dealer real taxable sales (DOR) | 2017-2025     | 2022-2025    |         29 |                                                                              | Asotin, Kittitas |
 
 
 ## New-car dealer employment (CBP) (cbp_emp)
@@ -33,16 +32,16 @@ Typical (median absolute) test log error: 0.111
 
 Counties with either flag:
 
-| county   |   test_years_above |   test_years |   residual_pct |   residual_z |   tire_growth_log |   dealer_growth_log |   relative_gap_log | residual_flag   | growth_flag   |
-|:---------|-------------------:|-------------:|---------------:|-------------:|------------------:|--------------------:|-------------------:|:----------------|:--------------|
-| Grant    |                  2 |            2 |          0.300 |        2.366 |             0.110 |              -0.170 |              0.171 | True            | True          |
-| Chelan   |                  2 |            2 |          0.052 |        0.453 |             0.027 |              -0.483 |              0.399 | False           | True          |
-| Franklin |                  2 |            2 |          0.278 |        2.211 |             0.068 |              -0.154 |              0.112 | True            | False         |
-| Yakima   |                  2 |            2 |          0.036 |        0.317 |             0.096 |              -0.211 |              0.197 | False           | True          |
-| Skagit   |                  0 |            2 |         -0.098 |       -0.929 |             0.118 |              -0.181 |              0.190 | False           | True          |
-| Spokane  |                  2 |            2 |          0.268 |        2.141 |             0.050 |               0.037 |             -0.097 | True            | False         |
-| Kitsap   |                  0 |            2 |         -0.263 |       -2.756 |             0.102 |              -0.494 |              0.486 | False           | True          |
-| Kittitas |                  2 |            2 |          0.125 |        1.064 |            -0.014 |               0.144 |             -0.268 | True            | False         |
+| county   |   test_years_above |   test_years |   residual_pct |   residual_z |   tire_growth_log |   vehicle_growth_log |   relative_gap_log | residual_flag   | growth_flag   |
+|:---------|-------------------:|-------------:|---------------:|-------------:|------------------:|---------------------:|-------------------:|:----------------|:--------------|
+| Kittitas |                  2 |            2 |          0.125 |        1.064 |             0.128 |               -0.004 |              0.109 | True            | True          |
+| Grant    |                  2 |            2 |          0.300 |        2.366 |             0.085 |                0.049 |              0.013 | True            | False         |
+| Pierce   |                  2 |            2 |          0.020 |        0.175 |             0.038 |               -0.040 |              0.055 | False           | True          |
+| Skagit   |                  0 |            2 |         -0.098 |       -0.929 |             0.143 |               -0.040 |              0.160 | False           | True          |
+| Franklin |                  2 |            2 |          0.278 |        2.211 |             0.041 |                0.062 |             -0.045 | True            | False         |
+| Spokane  |                  2 |            2 |          0.268 |        2.141 |             0.023 |                0.038 |             -0.038 | True            | False         |
+| Kitsap   |                  0 |            2 |         -0.263 |       -2.756 |             0.170 |               -0.032 |              0.179 | False           | True          |
+| Whatcom  |                  0 |            2 |         -0.201 |       -2.026 |             0.094 |               -0.005 |              0.075 | False           | True          |
 
 
 ## New-car dealer real taxable sales (DOR) (sales)
@@ -59,20 +58,22 @@ Typical (median absolute) test log error: 0.176
 
 Counties with either flag:
 
-| county    |   test_years_above |   test_years |   residual_pct |   residual_z |   tire_growth_log |   dealer_growth_log |   relative_gap_log | residual_flag   | growth_flag   |
-|:----------|-------------------:|-------------:|---------------:|-------------:|------------------:|--------------------:|-------------------:|:----------------|:--------------|
-| Jefferson |                  4 |            4 |          0.673 |        2.925 |             0.026 |              -0.257 |              0.295 | True            | True          |
-| Kittitas  |                  4 |            4 |          0.497 |        2.295 |             0.128 |              -0.332 |              0.472 | True            | True          |
-| Grant     |                  4 |            4 |          0.495 |        2.286 |             0.085 |              -0.096 |              0.192 | True            | True          |
-| Island    |                  2 |            4 |          0.080 |        0.438 |             0.050 |              -0.888 |              0.950 | False           | True          |
-| Adams     |                  4 |            4 |          1.992 |        6.232 |            -0.052 |              -0.014 |             -0.026 | True            | False         |
-| Asotin    |                  4 |            4 |          1.214 |        4.518 |             0.147 |               0.180 |             -0.021 | True            | False         |
-| Cowlitz   |                  1 |            4 |         -0.106 |       -0.636 |             0.034 |              -0.458 |              0.504 | False           | True          |
-| Spokane   |                  4 |            4 |          0.276 |        1.385 |             0.023 |               0.051 |             -0.016 | True            | False         |
-| Skagit    |                  0 |            4 |         -0.115 |       -0.697 |             0.143 |              -0.077 |              0.232 | False           | True          |
-| Klickitat |                  4 |            4 |          0.933 |        3.747 |            -0.120 |               0.695 |             -0.803 | True            | False         |
-| San Juan  |                  0 |            4 |         -0.878 |      -11.950 |             0.195 |              -0.359 |              0.565 | False           | True          |
-| Okanogan  |                  4 |            4 |          0.218 |        1.121 |             0.009 |               0.412 |             -0.391 | True            | False         |
+| county    |   test_years_above |   test_years |   residual_pct |   residual_z |   tire_growth_log |   vehicle_growth_log |   relative_gap_log | residual_flag   | growth_flag   |
+|:----------|-------------------:|-------------:|---------------:|-------------:|------------------:|---------------------:|-------------------:|:----------------|:--------------|
+| Asotin    |                  4 |            4 |          1.214 |        4.518 |             0.147 |               -0.048 |              0.169 | True            | True          |
+| Kittitas  |                  4 |            4 |          0.497 |        2.295 |             0.128 |               -0.004 |              0.107 | True            | True          |
+| Island    |                  2 |            4 |          0.080 |        0.438 |             0.050 |               -0.056 |              0.080 | False           | True          |
+| Jefferson |                  4 |            4 |          0.673 |        2.925 |             0.026 |               -0.038 |              0.038 | True            | False         |
+| Mason     |                  2 |            4 |         -0.003 |       -0.016 |             0.151 |               -0.021 |              0.147 | False           | True          |
+| Grant     |                  4 |            4 |          0.495 |        2.286 |             0.085 |                0.049 |              0.010 | True            | False         |
+| Skagit    |                  0 |            4 |         -0.115 |       -0.697 |             0.143 |               -0.040 |              0.157 | False           | True          |
+| Okanogan  |                  4 |            4 |          0.218 |        1.121 |             0.009 |                0.008 |             -0.025 | True            | False         |
+| Adams     |                  4 |            4 |          1.992 |        6.232 |            -0.052 |                0.058 |             -0.136 | True            | False         |
+| Kitsap    |                  0 |            4 |         -0.264 |       -1.744 |             0.170 |               -0.032 |              0.176 | False           | True          |
+| San Juan  |                  0 |            4 |         -0.878 |      -11.950 |             0.195 |               -0.025 |              0.193 | False           | True          |
+| Spokane   |                  4 |            4 |          0.276 |        1.385 |             0.023 |                0.038 |             -0.040 | True            | False         |
+| Klickitat |                  4 |            4 |          0.933 |        3.747 |            -0.120 |               -0.009 |             -0.137 | True            | False         |
+| Whatcom   |                  0 |            4 |         -0.168 |       -1.043 |             0.094 |               -0.005 |              0.073 | False           | True          |
 
 
 ## Excluded counties (tire-data quality, all views)

@@ -21,18 +21,19 @@ def test_residual_scaled_by_typical_error_and_flag():
     assert res["residual_flag"].to_dict() == {"A": True, "B": False, "C": False}
 
 
-def test_relative_growth_gap_and_tire_growth_requirement():
+def test_relative_growth_gap_vs_vehicles_and_tire_growth_requirement():
     cy = pd.DataFrame({
         "county": ["A", "A", "B", "B", "C", "C"],
         "year": [2019, 2023] * 3,
         "tire_real": [100.0, 150.0, 100.0, 90.0, 100.0, 100.0],
-        "newcar_emp": [100.0, 100.0, 100.0, 50.0, 100.0, 100.0],
+        "vehicles": [100.0, 100.0, 100.0, 50.0, 100.0, 100.0],
     })
-    gap = signals.growth_gap(cy, 2019, 2023, "newcar_emp").set_index("county")
-    state_tire, state_dealer = np.log(340 / 300), np.log(250 / 300)
-    assert gap.loc["A", "relative_gap_log"] == pytest.approx(np.log(1.5) - state_tire + state_dealer)
+    gap = signals.growth_gap(cy, 2019, 2023).set_index("county")
+    state_tire, state_vehicles = np.log(340 / 300), np.log(250 / 300)
+    assert gap.loc["A", "growth_gap_log"] == pytest.approx(np.log(1.5) - np.log(1.0))  # tire minus vehicle growth
+    assert gap.loc["A", "relative_gap_log"] == pytest.approx(np.log(1.5) - state_tire + state_vehicles)
     shift = gap["growth_gap_log"] - gap["relative_gap_log"]
-    assert np.allclose(shift, state_tire - state_dealer)  # constant shift: same ranking as the raw gap
+    assert np.allclose(shift, state_tire - state_vehicles)  # constant shift: same ranking as the raw gap
     res = pd.DataFrame({"county": ["A", "B", "C"], "residual_z": [2.0, 3.0, 0.5], "residual_flag": [True, True, False]})
     ranked = signals.rank_and_flag(res, gap.reset_index(), top_share=2 / 3).set_index("county")
     # B has the largest gap but tire sales fell, so it is not a growth candidate
