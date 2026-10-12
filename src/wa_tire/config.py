@@ -27,7 +27,15 @@ MODEL_FIRST_YEAR = 2017
 TRAIN_YEARS = range(2017, 2022)  # 2017-2021
 TEST_FIRST_YEAR = 2022           # 2022-last full year
 GROWTH_BASE_YEAR = 2019
-RECENT_YEARS_N = 3               # residuals averaged over the last 3 full years
+RECENT_YEARS_N = 3               # residual flag uses the last 3 test years (fewer if the view has fewer)
+
+# Dealer activity measures ("views"), primary first. Primary: Census CBP new-car dealer employment
+# (2017-2023; 2024 not yet released). Secondary: DOR new-car-dealer real taxable sales.
+CBP_NAICS_VAR = "NAICS2017"  # 441110 is unchanged in NAICS 2022
+DEALER_VIEWS = {
+    "cbp_emp": {"col": "newcar_emp", "label": "New-car dealer employment (CBP)"},
+    "sales": {"col": "newcar_real", "label": "New-car dealer real taxable sales (DOR)"},
+}
 
 # BLS CPI-U, U.S. city average, not seasonally adjusted.
 CPI_TIRES = "CUUR0000SETC01"         # Tires
@@ -40,4 +48,5 @@ HIDDEN_QUARTER_SHARE = 0.25   # quarter counts as hidden if D cells could be >25
 MAX_HIDDEN_QUARTERS = 0.25    # exclude county if >25% of its quarters are hidden
 
 QOQ_OUTLIER_LOG = 0.5         # flag |county QoQ log change - statewide QoQ log change| > 0.5
-TOP_SHARE = 0.25              # top-quartile on both signals = top candidate
+TOP_SHARE = 0.25              # growth flag: top quartile on relative growth gap
+RESIDUAL_Z_MIN = 1.0          # residual flag: mean recent log residual > 1x typical (median abs) test log error

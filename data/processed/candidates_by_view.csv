@@ -1,0 +1,30 @@
+county,residual_flag_cbp_emp,growth_flag_cbp_emp,top_candidate_cbp_emp,residual_flag_sales,growth_flag_sales,top_candidate_sales
+Grant,True,True,True,True,True,True
+Chelan,False,True,False,False,False,False
+Franklin,True,False,False,False,False,False
+Yakima,False,True,False,False,False,False
+Snohomish,False,False,False,False,False,False
+Okanogan,False,False,False,True,False,False
+Skagit,False,True,False,False,True,False
+Spokane,True,False,False,True,False,False
+Cowlitz,False,False,False,False,True,False
+Pierce,False,False,False,False,False,False
+Kitsap,False,True,False,False,False,False
+Thurston,False,False,False,False,False,False
+Kittitas,True,False,False,True,True,True
+Clark,False,False,False,False,False,False
+King,False,False,False,False,False,False
+Benton,False,False,False,False,False,False
+Lewis,False,False,False,False,False,False
+Whatcom,False,False,False,False,False,False
+Clallam,False,False,False,False,False,False
+Walla Walla,False,False,False,False,False,False
+Jefferson,,,,True,True,True
+Stevens,,,,False,False,False
+Island,,,,False,True,False
+Adams,,,,True,False,False
+Asotin,,,,True,False,False
+Mason,,,,False,False,False
+Klickitat,,,,True,False,False
+San Juan,,,,False,True,False
+Ferry,,,,False,False,False

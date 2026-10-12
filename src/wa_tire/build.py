@@ -57,13 +57,15 @@ def deflate(cq, deflators):
 
 
 def exclusions(cq, county_year_df):
-    """Counties excluded from modelling, with reasons."""
+    """Counties excluded from all views because of tire-dealer data quality, with reasons.
+
+    Missing dealer-activity data is handled per view in model.model_frame.
+    """
     tire = cq[cq["series"] == "tire"]
     hidden_q = (tire["hidden_share_ub"] > config.HIDDEN_QUARTER_SHARE).groupby(tire["county"]).mean()
     model = county_year_df[county_year_df["year"] >= config.MODEL_FIRST_YEAR]
     zero_tire = model.groupby("county")["tire_real"].min() <= 0
-    zero_newcar = model.groupby("county")["newcar_real"].min() <= 0
-    out = pd.DataFrame({"hidden_quarter_share": hidden_q, "zero_tire_year": zero_tire, "zero_newcar_year": zero_newcar})
+    out = pd.DataFrame({"hidden_quarter_share": hidden_q, "zero_tire_year": zero_tire})
     reasons = []
     for county, r in out.iterrows():
         why = []
@@ -71,16 +73,14 @@ def exclusions(cq, county_year_df):
             why.append(f"tire data hidden in {r['hidden_quarter_share']:.0%} of quarters")
         if r["zero_tire_year"]:
             why.append("a model year with no disclosed tire-dealer sales")
-        if r["zero_newcar_year"]:
-            why.append("a model year with no disclosed new-car-dealer sales")
         reasons.append("; ".join(why))
     out["reason"] = reasons
     out["excluded"] = out["reason"] != ""
     return out.reset_index().rename(columns={"index": "county"})
 
 
-def county_year(cq, vehicles):
-    """County x year (full years only): nominal and real sales by series, hidden cells, vehicles."""
+def county_year(cq, vehicles, cbp):
+    """County x year (full years only): nominal and real sales by series, hidden cells, vehicles, CBP dealer jobs."""
     full_years = cq.groupby("year")["quarter"].nunique()
     cq = cq[cq["year"].isin(full_years[full_years == 4].index)]
     wide = cq.pivot_table(index=["county", "year"], columns="series",
@@ -88,7 +88,7 @@ def county_year(cq, vehicles):
     wide.columns = [f"{s}_{v}".replace("_real_sales", "_real").replace("_sales", "_nominal")
                     for v, s in wide.columns]
     wide = wide.reset_index()
-    return wide.merge(vehicles, on=["county", "year"], how="left")
+    return wide.merge(vehicles, on=["county", "year"], how="left").merge(cbp, on=["county", "year"], how="left")
 
 
 def naics_transition_check(cq):

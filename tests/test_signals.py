@@ -5,28 +5,36 @@ import pytest
 from wa_tire import signals
 
 
-def test_residual_is_mean_log_ratio_over_selected_years():
-    pred = pd.DataFrame({
-        "county": ["A", "A", "A", "B", "B", "B"],
-        "year": [2023, 2024, 2025, 2023, 2024, 2025],
-        "actual": [110.0, 121.0, 999.0, 90.0, 90.0, 90.0],
-        "model": [100.0, 100.0, 100.0, 100.0, 100.0, 100.0],
-    })
-    res = signals.residuals(pred, [2023, 2024]).set_index("county")
-    assert res.loc["A", "residual_log"] == pytest.approx((np.log(1.1) + np.log(1.21)) / 2)
-    assert res.loc["B", "residual_pct"] == pytest.approx(-0.1)
+def _test_pred(ratios):
+    rows = [(c, y, r * 100.0, 100.0) for c, rs in ratios.items() for y, r in zip([2023, 2024, 2025], rs)]
+    return pd.DataFrame(rows, columns=["county", "year", "actual", "model"])
 
 
-def test_growth_gap_math_and_flags():
+def test_residual_scaled_by_typical_error_and_flag():
+    pred = _test_pred({"A": [1.2, 1.2, 1.2], "B": [0.9, 1.1, 1.0], "C": [1.05, 1.05, 1.05]})
+    res = signals.residual_stats(pred, recent_n=3, z_min=1.0).set_index("county")
+    typical = np.median(np.abs(np.log([1.2] * 3 + [0.9, 1.1, 1.0] + [1.05] * 3)))
+    assert res.loc["A", "typical_error"] == pytest.approx(typical)
+    assert res.loc["A", "residual_z"] == pytest.approx(np.log(1.2) / typical)
+    assert res.loc["B", "test_years_above"] == 1 and res.loc["C", "test_years_above"] == 3
+    # A: above in all years and beyond 1x typical error; C: always above but within error; B: not always above
+    assert res["residual_flag"].to_dict() == {"A": True, "B": False, "C": False}
+
+
+def test_relative_growth_gap_and_tire_growth_requirement():
     cy = pd.DataFrame({
-        "county": ["A", "A", "B", "B", "C", "C", "D", "D"],
-        "year": [2019, 2025] * 4,
-        "tire_real": [100.0, 150.0, 100.0, 100.0, 100.0, 90.0, 100.0, 130.0],
-        "newcar_real": [100.0, 120.0, 100.0, 100.0, 100.0, 100.0, 100.0, 140.0],
+        "county": ["A", "A", "B", "B", "C", "C"],
+        "year": [2019, 2023] * 3,
+        "tire_real": [100.0, 150.0, 100.0, 90.0, 100.0, 100.0],
+        "newcar_emp": [100.0, 100.0, 100.0, 50.0, 100.0, 100.0],
     })
-    gap = signals.growth_gap(cy, 2019, 2025).set_index("county")
-    assert gap.loc["A", "growth_gap_log"] == pytest.approx(np.log(1.5) - np.log(1.2))
-    assert gap.loc["D", "growth_gap_log"] < 0
-    res = pd.DataFrame({"county": ["A", "B", "C", "D"], "residual_log": [0.2, 0.3, -0.1, 0.1]})
-    ranked = signals.rank_and_flag(res, gap.reset_index(), top_share=0.5).set_index("county")
-    assert ranked["top_candidate"].to_dict() == {"A": True, "B": False, "C": False, "D": False}
+    gap = signals.growth_gap(cy, 2019, 2023, "newcar_emp").set_index("county")
+    state_tire, state_dealer = np.log(340 / 300), np.log(250 / 300)
+    assert gap.loc["A", "relative_gap_log"] == pytest.approx(np.log(1.5) - state_tire + state_dealer)
+    shift = gap["growth_gap_log"] - gap["relative_gap_log"]
+    assert np.allclose(shift, state_tire - state_dealer)  # constant shift: same ranking as the raw gap
+    res = pd.DataFrame({"county": ["A", "B", "C"], "residual_z": [2.0, 3.0, 0.5], "residual_flag": [True, True, False]})
+    ranked = signals.rank_and_flag(res, gap.reset_index(), top_share=2 / 3).set_index("county")
+    # B has the largest gap but tire sales fell, so it is not a growth candidate
+    assert ranked["growth_flag"].to_dict() == {"A": True, "B": False, "C": False}
+    assert ranked["top_candidate"].to_dict() == {"A": True, "B": False, "C": False}

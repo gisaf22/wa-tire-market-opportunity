@@ -64,22 +64,23 @@ def county_index(cq, county):
     return _index_chart(cq[cq["county"] == county], f"{county} County: real taxable sales (quarterly)")
 
 
-def signal_scatter(ranked):
-    """Residual (x) vs growth gap (y); top candidates highlighted and labelled."""
+def signal_scatter(ranked, z_min=1.0):
+    """Residual / typical error (x) vs relative growth gap (y); top candidates highlighted and labelled."""
     fig, ax = plt.subplots(figsize=(8, 5.5))
     top = ranked["top_candidate"]
-    ax.scatter(ranked.loc[~top, "residual_pct"] * 100, ranked.loc[~top, "growth_gap_log"] * 100,
-               s=36, color=MUTED, edgecolor=SURFACE, linewidth=1.5, label="Other included counties")
-    ax.scatter(ranked.loc[top, "residual_pct"] * 100, ranked.loc[top, "growth_gap_log"] * 100,
-               s=64, color=TIRE_COLOR, edgecolor=SURFACE, linewidth=1.5, label="Top candidates (top quartile on both)")
+    x, y = ranked["residual_z"], ranked["relative_gap_log"] * 100
+    ax.scatter(x[~top], y[~top], s=36, color=MUTED, edgecolor=SURFACE, linewidth=1.5, label="Other counties in view")
+    ax.scatter(x[top], y[top], s=64, color=TIRE_COLOR, edgecolor=SURFACE, linewidth=1.5,
+               label="Top candidates (both flags)")
     for _, r in ranked[top].iterrows():
-        ax.annotate(r["county"], (r["residual_pct"] * 100, r["growth_gap_log"] * 100), xytext=(6, 4),
+        ax.annotate(r["county"], (r["residual_z"], r["relative_gap_log"] * 100), xytext=(6, 4),
                     textcoords="offset points", color=INK, fontsize=9)
     ax.axhline(0, color=MUTED, linewidth=0.8)
     ax.axvline(0, color=MUTED, linewidth=0.8)
-    _style(ax, "County signals: sales above expectation vs tire growth beyond dealer growth",
-           "Growth gap since 2019 (log points x100)")
-    ax.set_xlabel("Residual: actual vs expected real tire sales, recent years (%)", color=INK_2)
+    ax.axvline(z_min, color=MUTED, linewidth=0.8, linestyle=":")
+    _style(ax, "County signals: residual vs growth gap, both relative to benchmarks",
+           "Relative growth gap (log points x100)")
+    ax.set_xlabel("Recent residual / typical model error (dotted line = 1x)", color=INK_2)
     ax.legend(frameon=False, loc="best", labelcolor=INK_2)
     fig.tight_layout()
     return fig
