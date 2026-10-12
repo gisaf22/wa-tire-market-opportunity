@@ -3,7 +3,7 @@
 Residual flag: actual above expected in every recent test year AND mean recent log residual
 greater than RESIDUAL_Z_MIN x the model's typical error (median absolute test log error).
 Growth flag: top quartile on relative growth gap (tire vs registered-vehicle growth), with relative
-gap > 0 and real tire growth > 0.
+gap > 0 and real tire-specialist growth > 0.
 Top candidate: both flags.
 """
 
@@ -32,7 +32,7 @@ def residual_stats(test_pred, recent_n, z_min):
 
 
 def growth_gap(cy, base_year, end_year):
-    """Real tire-dealer log growth minus registered-vehicle log growth, base->end, each net of the
+    """Real tire-specialist log growth minus registered-vehicle log growth, base->end, each net of the
     trend across the counties in `cy`.
 
     relative_gap = (county tire - state tire growth) - (county vehicle - state vehicle growth).
@@ -52,6 +52,8 @@ def growth_gap(cy, base_year, end_year):
     out["growth_gap_log"] = out["tire_growth_log"] - out["vehicle_growth_log"]
     out["relative_gap_log"] = out["tire_rel_log"] - out["vehicle_rel_log"]
     out["growth_period"] = f"{base_year}-{end_year}"
+    # No imputation: counties missing tire or vehicle data in either year are marked and reported.
+    out["growth_data_missing"] = out[["tire_growth_log", "vehicle_growth_log"]].isna().any(axis=1)
     return out.reset_index()
 
 

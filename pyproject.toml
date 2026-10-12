@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "wa-tire"
 version = "0.1.0"
-description = "POC: Washington county tire-shop market opportunity from WA DOR taxable retail sales"
+description = "POC: Washington county tire-specialist (independent shops and tire chains) market opportunity from WA DOR taxable retail sales"
 requires-python = ">=3.10"
 dependencies = ["pandas", "requests", "statsmodels", "matplotlib", "tabulate"]
 

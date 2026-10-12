@@ -1,4 +1,6 @@
-"""Baseline and log-linear model of real tire-dealer sales, with a time split.
+"""Baseline and log-linear model of real tire-specialist sales, with a time split.
+
+Tire specialists = tire-specialist retailers (independent shops and tire chains), NAICS 441320/441340.
 
 The dealer-activity regressor is a parameter (`dealer_col`): CBP new-car dealer employment
 (primary view) or DOR new-car-dealer real taxable sales (secondary view).
@@ -44,7 +46,7 @@ def calibrate(df, raw_pred):
 
 
 def baseline_predict(df):
-    """Real tire sales per registered vehicle (counties in the view) x county vehicles."""
+    """Real tire-specialist sales per registered vehicle (counties in the view) x county vehicles."""
     return calibrate(df, df["vehicles"].astype(float))
 
 

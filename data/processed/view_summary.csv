@@ -1,3 +1,3 @@
-view,measure,model_years,test_years,counties,dropped_no_dealer_data,top_candidates
-cbp_emp,New-car dealer employment (CBP),2017-2023,2022-2023,20,"Adams, Asotin, Ferry, Island, Jefferson, Klickitat, Mason, San Juan, Stevens",Kittitas
-sales,New-car dealer real taxable sales (DOR),2017-2025,2022-2025,29,,"Asotin, Kittitas"
+view,measure,model_years,test_years,counties,dropped_no_dealer_data,missing_growth_data_2019_2025,top_candidates
+cbp_emp,New-car dealer employment (CBP),2017-2023,2022-2023,20,"Adams, Asotin, Ferry, Island, Jefferson, Klickitat, Mason, San Juan, Stevens",none,Kittitas
+sales,New-car dealer real taxable sales (DOR),2017-2025,2022-2025,29,,none,"Asotin, Kittitas"

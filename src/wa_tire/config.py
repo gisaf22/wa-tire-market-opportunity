@@ -12,7 +12,8 @@ DOR_BASE = "https://apps.dor.wa.gov/ResearchStats/Content/TaxableRetailSalesLoca
 DOR_TAX_TYPE = "45"  # retail sales tax (not use tax)
 REQUEST_PAUSE_S = 1.5
 
-# NAICS: tire dealers changed code with DOR's move to 2022 NAICS in 2022Q2.
+# NAICS: tire dealers (tire-specialist retailers: independent shops and tire chains) changed code
+# with DOR's move to 2022 NAICS in 2022Q2.
 TIRE_CODES = {"441320": ("2005Q1", "2022Q1"), "441340": ("2022Q2", None)}
 NEWCAR_CODE = "441110"
 SERIES = {"441320": "tire", "441340": "tire", "441110": "newcar"}

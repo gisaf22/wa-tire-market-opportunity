@@ -27,9 +27,11 @@ def run_view(view, cy, included, growth_end):
     res = signals.residual_stats(test_pred, config.RECENT_YEARS_N, config.RESIDUAL_Z_MIN)
     # Growth gap uses tire vs vehicle growth over the full period, for the counties in this view.
     gap = signals.growth_gap(cy[cy["county"].isin(df["county"].unique())], config.GROWTH_BASE_YEAR, growth_end)
+    missing = sorted(gap.loc[gap["growth_data_missing"], "county"])  # reported, not imputed
+    gap = gap[~gap["growth_data_missing"]]
     ranked = signals.rank_and_flag(res, gap, config.TOP_SHARE)
     return {
-        "dropped": dropped, "last_year": last, "n_counties": df["county"].nunique(),
+        "dropped": dropped, "missing_growth": missing, "last_year": last, "n_counties": df["county"].nunique(),
         f"test_predictions_{view}": test_pred,
         f"evaluation_{view}": evaluate.evaluation_table(test_pred),
         f"evaluation_by_year_{view}": evaluate.evaluation_by_year(test_pred),
@@ -70,6 +72,7 @@ def main(refresh):
         {"view": v, "measure": config.DEALER_VIEWS[v]["label"], "model_years": f"{config.MODEL_FIRST_YEAR}-{r['last_year']}",
          "test_years": f"{config.TEST_FIRST_YEAR}-{r['last_year']}", "counties": r["n_counties"],
          "dropped_no_dealer_data": ", ".join(r["dropped"]),
+         f"missing_growth_data_{config.GROWTH_BASE_YEAR}_{growth_end}": ", ".join(r["missing_growth"]) or "none",
          "top_candidates": ", ".join(r[f"signals_{v}"].query("top_candidate")["county"])}
         for v, r in views.items()
     ])
@@ -83,7 +86,7 @@ def main(refresh):
         "view_summary": view_summary, "candidates_by_view": comparison, "candidate_tiers": tiers,
     }
     for r in views.values():
-        outputs.update({k: v for k, v in r.items() if k not in ("dropped", "last_year", "n_counties")})
+        outputs.update({k: v for k, v in r.items() if k not in ("dropped", "missing_growth", "last_year", "n_counties")})
     for name, frame in outputs.items():
         frame.to_csv(config.PROCESSED / f"{name}.csv", index=False)
     locs.to_csv(config.REPORTS / "location_codes.csv", index=False)

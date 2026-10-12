@@ -1,6 +1,6 @@
 """Chart functions; each returns a matplotlib Figure.
 
-Tire and dealer sales differ in scale by ~20x, so both are indexed to their 2019 average = 100
+Tire-specialist and dealer sales differ in scale by ~20x, so both are indexed to their 2019 average = 100
 on one axis (no dual axes). Palette: validated default categorical slots 1-2.
 """
 
@@ -14,7 +14,7 @@ INK = "#0b0b0b"
 INK_2 = "#52514e"
 MUTED = "#898781"
 GRID = "#e1e0d9"
-LABELS = {"tire": "Tire dealers (441320/441340)", "newcar": "New-car dealers (441110)"}
+LABELS = {"tire": "Tire specialists (NAICS 441320/441340)", "newcar": "New-car dealers (NAICS 441110)"}
 COLORS = {"tire": TIRE_COLOR, "newcar": NEWCAR_COLOR}
 
 
@@ -57,7 +57,7 @@ def _index_chart(cq, title):
 
 
 def statewide_index(cq):
-    return _index_chart(cq, "Washington: real taxable sales, tire dealers vs new-car dealers (quarterly)")
+    return _index_chart(cq, "Washington: real taxable sales, tire specialists vs new-car dealers (quarterly)")
 
 
 def county_index(cq, county):

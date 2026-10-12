@@ -12,10 +12,10 @@ Run date: 2026-10-12. Sales quarters: 2015Q1-2026Q1. Train 2017-2021; test 2022-
 
 ## Views
 
-| view    | measure                                 | model_years   | test_years   |   counties | dropped_no_dealer_data                                                       | top_candidates   |
-|:--------|:----------------------------------------|:--------------|:-------------|-----------:|:-----------------------------------------------------------------------------|:-----------------|
-| cbp_emp | New-car dealer employment (CBP)         | 2017-2023     | 2022-2023    |         20 | Adams, Asotin, Ferry, Island, Jefferson, Klickitat, Mason, San Juan, Stevens | Kittitas         |
-| sales   | New-car dealer real taxable sales (DOR) | 2017-2025     | 2022-2025    |         29 |                                                                              | Asotin, Kittitas |
+| view    | measure                                 | model_years   | test_years   |   counties | dropped_no_dealer_data                                                       | missing_growth_data_2019_2025   | top_candidates   |
+|:--------|:----------------------------------------|:--------------|:-------------|-----------:|:-----------------------------------------------------------------------------|:--------------------------------|:-----------------|
+| cbp_emp | New-car dealer employment (CBP)         | 2017-2023     | 2022-2023    |         20 | Adams, Asotin, Ferry, Island, Jefferson, Klickitat, Mason, San Juan, Stevens | none                            | Kittitas         |
+| sales   | New-car dealer real taxable sales (DOR) | 2017-2025     | 2022-2025    |         29 |                                                                              | none                            | Asotin, Kittitas |
 
 
 ## New-car dealer employment (CBP) (cbp_emp)
@@ -78,18 +78,18 @@ Counties with either flag:
 
 ## Excluded counties (tire-data quality, all views)
 
-| county       |   hidden_quarter_share | reason                                                                                |
-|:-------------|-----------------------:|:--------------------------------------------------------------------------------------|
-| Columbia     |                   0.47 | tire data hidden in 47% of quarters                                                   |
-| Douglas      |                   0.36 | tire data hidden in 36% of quarters                                                   |
-| Garfield     |                   0.62 | tire data hidden in 62% of quarters; a model year with no disclosed tire-dealer sales |
-| Grays Harbor |                   0.33 | tire data hidden in 33% of quarters                                                   |
-| Lincoln      |                   0.78 | tire data hidden in 78% of quarters                                                   |
-| Pacific      |                   0.53 | tire data hidden in 53% of quarters                                                   |
-| Pend Oreille |                   0.56 | tire data hidden in 56% of quarters                                                   |
-| Skamania     |                   0.73 | tire data hidden in 73% of quarters                                                   |
-| Wahkiakum    |                   0.51 | tire data hidden in 51% of quarters                                                   |
-| Whitman      |                   0.91 | tire data hidden in 91% of quarters                                                   |
+| county       |   hidden_quarter_share | reason                                                                                    |
+|:-------------|-----------------------:|:------------------------------------------------------------------------------------------|
+| Columbia     |                   0.47 | tire data hidden in 47% of quarters                                                       |
+| Douglas      |                   0.36 | tire data hidden in 36% of quarters                                                       |
+| Garfield     |                   0.62 | tire data hidden in 62% of quarters; a model year with no disclosed tire-specialist sales |
+| Grays Harbor |                   0.33 | tire data hidden in 33% of quarters                                                       |
+| Lincoln      |                   0.78 | tire data hidden in 78% of quarters                                                       |
+| Pacific      |                   0.53 | tire data hidden in 53% of quarters                                                       |
+| Pend Oreille |                   0.56 | tire data hidden in 56% of quarters                                                       |
+| Skamania     |                   0.73 | tire data hidden in 73% of quarters                                                       |
+| Wahkiakum    |                   0.51 | tire data hidden in 51% of quarters                                                       |
+| Whitman      |                   0.91 | tire data hidden in 91% of quarters                                                       |
 
 
 ## 2022 NAICS switch check (statewide tire Q2/Q1)

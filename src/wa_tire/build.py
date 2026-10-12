@@ -57,7 +57,7 @@ def deflate(cq, deflators):
 
 
 def exclusions(cq, county_year_df):
-    """Counties excluded from all views because of tire-dealer data quality, with reasons.
+    """Counties excluded from all views because of tire-specialist data quality, with reasons.
 
     Missing dealer-activity data is handled per view in model.model_frame.
     """
@@ -72,7 +72,7 @@ def exclusions(cq, county_year_df):
         if r["hidden_quarter_share"] > config.MAX_HIDDEN_QUARTERS:
             why.append(f"tire data hidden in {r['hidden_quarter_share']:.0%} of quarters")
         if r["zero_tire_year"]:
-            why.append("a model year with no disclosed tire-dealer sales")
+            why.append("a model year with no disclosed tire-specialist sales")
         reasons.append("; ".join(why))
     out["reason"] = reasons
     out["excluded"] = out["reason"] != ""
@@ -92,7 +92,7 @@ def county_year(cq, vehicles, cbp):
 
 
 def naics_transition_check(cq):
-    """Statewide tire-dealer Q2/Q1 nominal ratio by year; 2022 is the 441320 -> 441340 switch."""
+    """Statewide tire-specialist Q2/Q1 nominal ratio by year; 2022 is the 441320 -> 441340 switch."""
     s = cq[cq["series"] == "tire"].groupby("quarter")["sales"].sum()
     rows = []
     for y in sorted({q[:4] for q in s.index}):
@@ -134,7 +134,7 @@ def load_processed(name):
 
 
 def growth_concentration(raw, counties, base_year, end_year):
-    """For each county, the jurisdiction contributing most to the change in disclosed nominal tire sales.
+    """For each county, the jurisdiction contributing most to the change in disclosed nominal tire-specialist sales.
 
     top_share = that jurisdiction's change / the county's net change. Near or above 1 means one city
     (often one business) drives the county's growth signal.
