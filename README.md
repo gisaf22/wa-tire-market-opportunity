@@ -1,6 +1,24 @@
 # Washington tire market opportunity (POC)
 
-We modelled expected tire-specialist sales (WA taxable sales of tire dealers, NAICS 441320 → 441340) from registered vehicles and two dealer-activity controls (Census dealer employment as primary, dealer taxable sales as secondary), using 2017–2025. We flagged counties whose tire-specialist sales sit above expectation beyond typical model error and grew faster than registered vehicles from 2019 to 2025, and capped any county at Watch when one city drives more than half of its growth. **No county is a robust candidate:** Kittitas passes under both dealer controls but is capped at Watch because Cle Elum alone accounts for 182% of its real tire-specialist growth, and Asotin is on Watch (dealer-sales view only; Clarkston 95%). The main caveat: both signals rest on one city each, and dealer tire sales are not observable, so these are **candidates to investigate, not proof** that dealerships are losing tire business.
+**No robust candidate.** No Washington county passed every test we set.
+
+**Strongest lead: Kittitas (Watch).** Tire specialists there sell more than the county's cars on the road and its car dealers would suggest. Their sales also grew from 2019 to 2025 while the number of registered vehicles stayed flat. But almost all of that growth comes from one small town, **Cle Elum**. Its tire-specialist sales jumped from about $20,000 to about $900,000 a quarter starting in spring 2024, with the same handful of businesses reporting. Over the same period, sales in the rest of the county, including Ellensburg, went down. A jump like that usually means one business opened, expanded, was reclassified as a tire dealer, or changed where it reports its sales. It is not yet a county-wide shift. Finding out which business it was is the next step.
+
+**Also on watch: Asotin.** It shows a similar pattern: sales above expectation and growing while vehicles shrink. Almost all of it is in **Clarkston**, which shares a market with Lewiston, Idaho, so cross-border shopping is a likely explanation. It could only be checked against one of the two dealer measures, because Census publishes no dealer data for it.
+
+These are leads to investigate, not proof that dealerships are losing tire business.
+
+**Status: exploratory.** The signal rules were refined step by step *after* looking at results on the same data. Each change and its reason (details in [`reports/signal_definition_change.md`](reports/signal_definition_change.md)):
+
+1. **Tire-specialist growth must be positive** (`d85d2f6`): stops a county being flagged only because its dealers declined.
+2. **Growth gap measured against the state trend** (`d85d2f6`): moves the zero line to "faster than the state"; the ranking is unchanged.
+3. **Census dealer employment added as the primary dealer measure; dealer sales kept as secondary** (`d85d2f6`): dealer sales mostly track new-car sales, which fell nationally after 2019.
+4. **Residual flag judged out of sample against the model's typical error** (`d85d2f6`): flags only counties above expectation in every recent test year and by more than 1× typical error.
+5. **Tiers instead of equal weighting** (`0189d21`): Robust = flagged under both dealer measures; Watch = one only.
+6. **Growth gap compares tire-specialist growth with registered-vehicle growth, not dealer activity** (`5649d84`): dealer activity reflects car sales, not tire business; cars on the road are the demand base.
+7. **Concentration cap** (`edc0309`): a county is capped at Watch when one city accounts for more than 50% of its growth, because one business should not make a market.
+
+**The rules are now frozen.** Future data, such as CBP 2024 when it is released, will be evaluated with these rules unchanged.
 
 ## Question
 
@@ -121,6 +139,7 @@ The views cover different counties: CBP excludes the smallest, noisiest counties
 - Taxable retail sales only; tax-exempt sales (e.g. for resale) are excluded. Hidden cells make county totals lower bounds.
 - One city can drive a county's signal (Kittitas: Cle Elum 182% of real growth; Asotin: Clarkston 95%). Counties above 50% are capped at Watch.
 - One state; 20 (CBP) or 29 (sales) counties modelled; small samples. CBP ends in 2023, so the primary view's level model has only 2 test years.
+- Signal rules were set post hoc on the same data, so the results are exploratory, not a confirmed finding. The rules are now frozen.
 - **Results are candidates, not proof.**
 
 ## With company data
