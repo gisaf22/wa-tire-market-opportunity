@@ -53,3 +53,28 @@ No new data; thresholds unchanged from v1. Coefficients and p-values in v1 were 
 - **H3:** In each view, the vehicle coefficient's 95% CI excludes 0 and the dealer-activity coefficient's 95% CI includes 0.
 
 **What would change the README:** a hypothesis failure is reported in this log and notebook 01b. The README summary changes only if a county's tier changes under the frozen rules, which v1.1 cannot do (same data, same rules); v1.1 changes confidence, not tiers.
+
+---
+
+## v1.1 rigour checks — results (2026-10-15)
+
+Same snapshot and frozen v1 rules. Code: `src/wa_tire/rigour.py`, `scripts/run_rigour.py`; notebook `notebooks/01b_rigour.ipynb`. The rigour baseline reproduces v1 ranks and flags exactly.
+
+| Hypothesis | Verdict | Evidence |
+|---|---|---|
+| H1 top-quartile residual in ≥80% of draws | **Not supported** | Kittitas: CBP 72%, sales 92%. Asotin: sales 96% |
+| H2 flag independent of any single county | **Not supported** | Kittitas CBP flag removed by dropping Benton, King, Pierce, Snohomish or Walla Walla (residual flag). Kittitas and Asotin under sales: no single county changes them |
+| H3 vehicles CI excludes 0, dealer CI includes 0 | **Not supported** | CBP (G=20): vehicles 0.65 [0.31, 0.99], dealer 0.15 [−0.15, 0.45], as expected. Sales (G=29): vehicles 0.40 [−0.04, 0.84], dealer 0.35 [0.01, 0.69], reversed |
+
+**Bootstrap (2,000 draws; 90% intervals)**
+- Kittitas, CBP view: median rank 4 [1, 9]; flagged as top candidate in 54% of draws. Recent log residual 0.11 [0.01, 0.21].
+- Kittitas, sales view: median rank 5 [1, 9]; top candidate in 84% of draws. Log residual 0.38 [0.19, 0.61].
+- Asotin, sales view: median rank 2 [1, 8]; top candidate in 91% of draws. Log residual 0.67 [0.12, 1.48].
+
+**Tiers:** unchanged. Kittitas and Asotin stay Watch in every leave-one-out refit. If Kittitas loses its CBP flag, it becomes "sales view only", which is still Watch. The only tier-table change in any refit: Island enters as Watch (sales only) when Adams, Asotin or Klickitat is dropped.
+
+**What changed in confidence**
+- Kittitas's primary-view (CBP) flag is fragile. It rests on a residual just over the threshold (1.06×) and on which large counties set the typical error. Its sales-view flag is stable.
+- Asotin's flag is stable within the one view that can assess it.
+- v1 read the coefficients as "tire sales track vehicles, not dealers". That holds in the CBP view only. Under dealer sales with small-cluster CIs, vehicles and dealer activity are not cleanly separable. The README's "Other findings" sentence is scoped to the CBP model, so it stands.
+- Results remain exploratory. v1.1 adds uncertainty measures; it does not validate the signal.

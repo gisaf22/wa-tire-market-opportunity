@@ -74,6 +74,8 @@ Plausible explanations other than dealer loss are listed as **hypotheses** in no
 
 Full rankings: `data/processed/signals_cbp_emp.csv`, `signals_sales.csv`, `candidates_by_view.csv`. Notebook: `notebooks/wa_tire_opportunity.ipynb`.
 
+**Uncertainty (v1.1):** [`notebooks/01b_rigour.ipynb`](notebooks/01b_rigour.ipynb) runs a county bootstrap, leave-one-county-out refits and clustered CIs. Tiers are unchanged. Kittitas's CBP flag is fragile: it is a top candidate in 54% of draws, and dropping any of five large counties removes it. Its dealer-sales flag and Asotin's are stable. Pre-registered hypotheses and verdicts: [`reports/findings_log.md`](reports/findings_log.md).
+
 ## Other findings
 
 In the CBP model, dealer employment adds little once vehicles are included: its coefficient is 0.15 (p = 0.30), against 0.65 for vehicles (p < 0.001). In this data, tire-specialist sales track cars on the road more than dealer presence. This is an observation from 20 Washington counties over 2017–2023, not a general conclusion.
@@ -151,10 +153,12 @@ With a company's dealer-level data, this becomes a **dealer-level target list**:
 ## Run order
 
 ```zsh
-pip install -e ".[dev]"
+pip install -r requirements.txt && pip install -e ".[dev]"
 python3 scripts/run_pipeline.py      # uses cached pulls in data/raw/; add --refresh to re-pull (needs CENSUS_API_KEY)
+python3 scripts/run_rigour.py        # v1.1 bootstrap / leave-one-out (about 1 minute)
 pytest
 jupyter execute --inplace notebooks/wa_tire_opportunity.ipynb
+jupyter execute --inplace notebooks/01b_rigour.ipynb
 ```
 
 The notebook runs on a Jupyter kernel named `wa-tire` that points at the Python where the package is installed. If that kernel does not exist on your machine, register it once with `python3 -m ipykernel install --user --name wa-tire --display-name "Python (wa-tire)"`.
@@ -163,5 +167,6 @@ The notebook runs on a Jupyter kernel named `wa-tire` that points at the Python 
 
 - `src/wa_tire/`: all logic (config, pulls including CBP, build, model, evaluate, signals, plots).
 - `scripts/run_pipeline.py`: end-to-end pipeline for both dealer views. It writes `data/processed/` and `reports/results_summary.md`.
-- `tests/`: 6 focused tests (code combining, no double counting, non-negative sales, error-scaled residual, growth gap vs vehicles, concentration cap).
-- `reports/`: state data check, location-code rule, signal-definition change, pipeline summary.
+- `tests/`: 10 focused tests (code combining, no double counting, non-negative sales, error-scaled residual, growth gap vs vehicles, concentration cap; rigour: resampling, clustered CIs, bootstrap summary, leave-one-out changes).
+- `src/wa_tire/rigour.py`, `scripts/run_rigour.py`: v1.1 uncertainty checks (writes `data/processed/rigour_*.csv`).
+- `reports/`: findings log, data snapshot, state data check, location-code rule, signal-definition change, pipeline summary.
