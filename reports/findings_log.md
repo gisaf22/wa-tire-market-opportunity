@@ -78,3 +78,14 @@ Same snapshot and frozen v1 rules. Code: `src/wa_tire/rigour.py`, `scripts/run_r
 - Asotin's flag is stable within the one view that can assess it.
 - v1 read the coefficients as "tire sales track vehicles, not dealers". That holds in the CBP view only. Under dealer sales with small-cluster CIs, vehicles and dealer activity are not cleanly separable. The README's "Other findings" sentence is scoped to the CBP model, so it stands.
 - Results remain exploratory. v1.1 adds uncertainty measures; it does not validate the signal.
+
+---
+
+## State survey: local tire-dealer sales outside Washington (2026-10-15)
+
+Surveyed 21 states (CA first, then CO, UT, MN, IA, OH, NC, VA, OK, AZ, MO, KS, NE, WI, ID, TN, FL, NY, GA, IL, MI). Test: tire dealers as a separate category (NAICS 44132/441320/441340), at county or city level, with at least 5 years of history. Details: `reports/state_survey.md`; checks: `scripts/survey/check_categories.py`.
+
+- **No state passes.** The finest local detail found is NAICS 4413, which combines tires with parts and accessories (CA counties, NY), or FL kind code 24 (also combined). Most states publish only 3-digit 441, business groups, or no local industry split.
+- **One unresolved lead:** Oklahoma's OkTAP "Tax Collections by NAICS" report, which may be city-level. Automated access hit a redirect loop, so it needs a manual browser check. It reports tax collected, not sales.
+- WI, ID, IL and MI were not checked within the time box. Several fails are marked uncertain in the report.
+- Implication: the analysis cannot be extended to other states with like-for-like tire-dealer sales from the states surveyed. Washington's 441320 local detail appears unusual.
