@@ -150,9 +150,11 @@ The views cover different counties: CBP excludes the smallest, noisiest counties
 
 ## Correct design with company data
 
-This county study is a proxy because dealer tire sales are not public. The correct design measures dealer tire share directly. With a company's dealer-level data, this becomes a **dealer-level target list**:
-- Each dealership's tire and service revenue and its customer addresses replace the county proxies.
-- Dealers that under-capture tire demand relative to their vehicles sold or serviced, and relative to tire-specialist sales in their area, are ranked as targets.
+- **Unit of analysis:** dealer (rooftop) × trade area × month. Trade area = the dealer's primary market area (ZIP codes or census tracts), as automakers commonly define it.
+- **Demand ("potential"):** vehicles in operation of the dealer's partner brands in the trade area × typical tire replacement rate.
+- **Measure:** dealer tire sales ÷ potential = tire penetration (share).
+- **Question it answers:** which dealers sell far fewer tires than the vehicles around them should generate, and is that gap growing?
+- **Why the public version can only approximate this:** no dealer tire sales; county instead of trade area; all vehicles instead of partner brands; competitors' (tire specialists') sales observed instead of the dealer's own.
 
 ## Run order
 
