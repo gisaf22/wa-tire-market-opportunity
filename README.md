@@ -2,7 +2,7 @@
 
 **No robust candidate.** No Washington county passed every test we set.
 
-**Strongest lead: Kittitas (Watch).** Tire specialists there sell more than the county's cars on the road and its car dealers would suggest. Their sales also grew from 2019 to 2025 while the number of registered vehicles stayed flat. But almost all of that growth comes from one small town, **Cle Elum**. Its tire-specialist sales jumped from about $20,000 to about $900,000 a quarter starting in spring 2024, with the same handful of businesses reporting. Over the same period, sales in the rest of the county, including Ellensburg, went down. A jump like that usually means one business opened, expanded, was reclassified as a tire dealer, or changed where it reports its sales. It is not yet a county-wide shift. Finding out which business it was is the next step.
+**Strongest lead: Kittitas (Watch).** Tire specialists there sell more than the county's cars on the road and its car dealers would suggest. Their sales also grew from 2019 to 2025 while the number of registered vehicles stayed flat. But almost all of that growth comes from one small town, **Cle Elum**. Its tire-specialist sales jumped from about $20,000 to about $900,000 a quarter starting in spring 2024, with the same handful of businesses reporting. Over the same period, sales in the rest of the county, including Ellensburg, went down. A jump like that usually means one business opened, expanded, was reclassified as a tire dealer, or changed where it reports its sales. It is not yet a county-wide shift. Finding out which business it was is the next step. Its flag in the primary (Census dealer-employment) view is also fragile: it sits just over the threshold, appears in only 54% of bootstrap draws, and disappears if any of five large counties is dropped. Its dealer-sales flag is stable.
 
 **Also on watch: Asotin.** It shows a similar pattern: sales above expectation and growing while vehicles shrink. Almost all of it is in **Clarkston**, which shares a market with Lewiston, Idaho, so cross-border shopping is a likely explanation. It could only be checked against one of the two dealer measures, because Census publishes no dealer data for it.
 
@@ -25,6 +25,8 @@ These are leads to investigate, not proof that dealerships are losing tire busin
 Where in Washington do tire-specialist retailers (independent shops and tire chains) capture more tire sales than cars on the road and dealer activity would predict, and are they gaining share faster than vehicle growth? These are candidate markets where dealerships may be losing tire business.
 
 "Tire specialists" below means tire-specialist retailers: independent shops and tire chains.
+
+**Scope: Washington only.** Washington is one of the few states publishing local sales for tire dealers specifically; a survey of 17 states found none with comparable detail (see reports/state_survey.md).
 
 ## Candidates (tiered)
 
@@ -79,6 +81,8 @@ Full rankings: `data/processed/signals_cbp_emp.csv`, `signals_sales.csv`, `candi
 ## Other findings
 
 In the CBP model, dealer employment adds little once vehicles are included: its coefficient is 0.15 (p = 0.30), against 0.65 for vehicles (p < 0.001). In this data, tire-specialist sales track cars on the road more than dealer presence. This is an observation from 20 Washington counties over 2017–2023, not a general conclusion.
+
+In the dealer-sales model the two cannot be separated: with clustered CIs, vehicles 0.40 [−0.04, 0.84] and dealer sales 0.35 [0.01, 0.69]. Larger counties have both more vehicles and more dealer sales, so the collinear coefficients split the effect unstably (v1.1, H3 not supported).
 
 ## How the signal definition changed
 
@@ -144,9 +148,9 @@ The views cover different counties: CBP excludes the smallest, noisiest counties
 - Signal rules were set post hoc on the same data, so the results are exploratory, not a confirmed finding. The rules are now frozen.
 - **Results are candidates, not proof.**
 
-## With company data
+## Correct design with company data
 
-With a company's dealer-level data, this becomes a **dealer-level target list**:
+This county study is a proxy because dealer tire sales are not public. The correct design measures dealer tire share directly. With a company's dealer-level data, this becomes a **dealer-level target list**:
 - Each dealership's tire and service revenue and its customer addresses replace the county proxies.
 - Dealers that under-capture tire demand relative to their vehicles sold or serviced, and relative to tire-specialist sales in their area, are ranked as targets.
 

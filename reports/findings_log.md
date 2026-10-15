@@ -89,3 +89,10 @@ Surveyed 21 states (CA first, then CO, UT, MN, IA, OH, NC, VA, OK, AZ, MO, KS, N
 - **One unresolved lead:** Oklahoma's OkTAP "Tax Collections by NAICS" report, which may be city-level. Automated access hit a redirect loop, so it needs a manual browser check. It reports tax collected, not sales.
 - WI, ID, IL and MI were not checked within the time box. Several fails are marked uncertain in the report.
 - Implication: the analysis cannot be extended to other states with like-for-like tire-dealer sales from the states surveyed. Washington's 441320 local detail appears unusual.
+
+---
+
+## v1.1 closed; scope decision (2026-10-15)
+
+- v1.1 is closed. Tiers unchanged (Kittitas, Asotin: Watch). Kittitas's CBP flag is fragile; H3 not supported in the sales view (vehicles and dealer sales collinear). README updated to state both.
+- Decision: the analysis stays Washington-only. WI, ID, IL and MI will not be surveyed, and the Oklahoma OkTAP lead will not be pursued. Of 17 states checked, none publishes local tire-dealer sales comparable to Washington's.
